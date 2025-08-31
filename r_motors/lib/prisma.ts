@@ -1,0 +1,7 @@
+import { PrismaClient } from "../node_modules/@prisma/client"
+
+const globalPrismaClient = global as unknown as {prisma: PrismaClient}
+
+export const prisma = globalPrismaClient.prisma || new PrismaClient({ log: ['query'] })
+
+if(process.env.NODE_ENV === 'development') globalPrismaClient.prisma = prisma;
