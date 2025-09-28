@@ -16,7 +16,9 @@ export type GetCarDataProps = CarsDataProps & {
   
 }
 
-type Props = PageProps<"/products/[id]"> 
+type Props = {
+  params: Promise<{id: string}>
+} 
 const productsPage = async({params}: Props) => {
   
   const {id} = await params
