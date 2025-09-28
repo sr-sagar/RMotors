@@ -1,13 +1,13 @@
+export const dynamic = "force-dynamic";
 import SearchPageFilter from '@/components/features/search/searchPageFilter'
 import React from 'react'
 import { prisma } from '../../../lib/prisma';
 import SearchItemsDisplayComponent from '../../../components/features/search/searchItemsDisplayComponent';
 import { ProductContextProvider } from '../../../components/context/productContext';
 
-
 const Search = async() => {
   const getProducts = await prisma.product.findMany({select: {id: true, productTitle: true, productDescription: true, productPrice: true,productImageURLs: true,productUploaderId: true,productCategory: true,productYear: true, productTotalMiles: true}})
-  const getProductCount = await prisma.product.count({ select: {id: true}})
+  const getProductCount = await prisma.product.count()
     
   const serilizedCars = getProducts.map((item) => ({
     ...item,
@@ -25,7 +25,7 @@ const Search = async() => {
           </div>
         </section>
         <section className='w-full h-max flexClass flex-col max-w-[90%] md:max-w-[80%] '>
-          <p className='w-full text-start pl-1'>{getProductCount.id} Cars found</p>
+          <p className='w-full text-start pl-1'>{getProductCount} Cars found</p>
           <div className='w-full mt-2 p-1'>
             <SearchItemsDisplayComponent/> 
           </div>
