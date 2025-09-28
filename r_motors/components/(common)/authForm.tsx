@@ -111,7 +111,7 @@ const AuthForm = () => {
             <div className=' w-full h-full mt-2 flexClass flex-col gap-y-2'>
                 <Button btnText={authLoginOrSignup? "Sign In" : "Create Account"} btnWidth={100} onClickFunc={handleBtnClick} />
                 {authLoginOrSignup? 
-                    <p className='cursor-pointer'>Don't have an account?<span onClick={() => setAuthLoginOrSignup(false)} className='text-blue-400'>SignUp</span></p>
+                    <p className='cursor-pointer'>Don&apos;t have an account?<span onClick={() => setAuthLoginOrSignup(false)} className='text-blue-400'>SignUp</span></p>
                     :
                     <p className='cursor-pointer'>Have an account?<span onClick={() => setAuthLoginOrSignup(true)} className='text-blue-400'>LogIn</span></p>
                 }

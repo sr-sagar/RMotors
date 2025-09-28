@@ -27,7 +27,7 @@ type InputBoxProp = InputBoxSingle | InputBoxMap
 const InputBox = <T extends string>({inputType,inputPlaceholder,inputWidth,inputMaxWidth,value,setValue,name,className,isDisabled}: InputBoxProp) => {
   const ref = useRef<HTMLInputElement | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target.value as T
+    const newValue = e.target.value as T
     if(name !== undefined)
     { 
       setValue(name,newValue)

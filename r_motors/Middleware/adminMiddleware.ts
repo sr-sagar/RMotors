@@ -28,7 +28,7 @@ export const addAdminProductsMiddleware = async(req: Request) => {
         productYear: formData.get("carYear") as string,
         productLocation: formData.get("carLocation") as string,
         productTotalMiles: formData.get("carTotalMiles") as string,
-        productPriceBeforeDiscount: formData.get("carPriceBeforeDiscount") as string,
+        productPriceBeforeDiscount: Number(formData.get("carPriceBeforeDiscount")),
     }
     const schema = joi.object({
         userEmail: joi.string().required(),
