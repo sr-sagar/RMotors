@@ -85,9 +85,12 @@ export default async function Home() {
         <p>Discover our handpicked selection of premium vehicles</p>
         <div className="w-full h-max flexClass">
           <div className="w-max md:w-full h-max  gap-x-4  flex justify-around items-center overflow-x-auto" style={{scrollbarWidth: "none"}} >
-            {getFeaturedCars.map((item) => (
+            {getFeaturedCars? getFeaturedCars.map((item) => (
               <SearchItems key={item.id} title={item.productTitle} price={item.productPrice.toString()} id={item.id} productOwnerId={item.productUploaderId} imgURL={item.productImageURLs[item.productImageURLs.length -1]} productCategory={item.productCategory} productYear={item.productYear} productTotalMiles={item.productTotalMiles}/>
-            ))}
+            ))
+            :
+            <p>No Products Yet.</p>
+          }
           </div>
         </div>
         <div className="w-max h-max flexClass mt-2">
