@@ -8,7 +8,8 @@ import DeliveredPage from '../../../components/features/orders/(pages)/delivered
 import PendingPage from '../../../components/features/orders/(pages)/pendingPage';
 import DispatchedPage from '../../../components/features/orders/(pages)/dispatchedPage';
 import CanceledPage from '../../../components/features/orders/(pages)/canceledPage';
-
+import { getCookies } from '../../../utils/getCookies';
+import Image from "next/image"
 
 
 
@@ -39,6 +40,14 @@ export type OrderProps = {
 const Orders = async() => {
   
 
+  if(!(await getCookies("token"))){
+    return(
+      <div className='w-full h-max flexClass flex-col'>
+        <Image src={"/profileImg.png"} height={300} width={400}  alt='this is the image that appers when user click on the profile while they are logged out.' className='object-[center_center] object-contain'/>
+        <h3 className='text-md md:text-lg font-bold'>Please Login/Signup to view this page.</h3>
+      </div>
+    );
+  }
   const res = await getRequestWithAuth("order");
   const getOrders = res?.res?.data;
   
