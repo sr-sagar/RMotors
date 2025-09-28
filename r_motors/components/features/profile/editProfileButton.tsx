@@ -2,12 +2,11 @@
 import Button from '@/components/(common)/button'
 import React from 'react'
 import { useStateContext } from '../../context/useStateContext';
-import { editUserDetailsFunction } from '../../../app/(pages)/profile/page';
 import { confirmAction, serverAlert } from '../../../utils/sweetAleart';
 import { getCookies } from '@/utils/getCookies';
 import { useRouter } from 'next/navigation';
 import { clearAllCookies } from '../../../utils/getCookies';
-
+import { editUserDetailsFunction } from '@/utils/profileExportFunctions';
 const EditProfileButton = () => {
     const {isProfileEditing,setIsProfileEditing,inputvalue,setInputValue} = useStateContext();
     const router = useRouter()

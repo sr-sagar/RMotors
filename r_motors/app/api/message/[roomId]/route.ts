@@ -16,7 +16,10 @@ export const POST = async(req: Request) => {
     }
 }
 
-export const GET = async(req: Request, {params}: {params: {roomId: string}}) => {
+type Props = {
+    params: Promise<{roomId: string}>
+  }
+export const GET = async(req: Request, {params}: Props) => {
     try{
         const {roomId} = await params;
         const {userEmail} = await getRoomMessagesMiddleware(req);
