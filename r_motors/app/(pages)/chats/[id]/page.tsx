@@ -8,11 +8,15 @@ import ChatList from '@/components/features/chats/chatList';
 
 
 
-
-const ChatFunctionComponent = async({params}: {params: {id: string}}) => {
+type Props = {
+  params: {
+    id: string
+  }
+}
+const ChatFunctionComponent = async({params}: Props) => {
   
 
-    const {id} = await params;
+    const {id} =  params;
     const roomId = id
     const res = await getRequestWithAuth(`message/${roomId}`);
     const roomMessages = res.res.data;

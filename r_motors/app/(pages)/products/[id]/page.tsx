@@ -17,11 +17,13 @@ export type GetCarDataProps = CarsDataProps & {
 }
 
 type Props = {
-  params: Promise<{id: string}>
+  params: {
+    id: string
+  }
 } 
 const productsPage = async({params}: Props) => {
   
-  const {id} = await params
+  const {id} =  params
   const getCar = await prisma.product.findFirst({where: {id: id}, select: {id: true,productTitle: true,productAvailability: true,productCategory: true,productDescription: true,productPrice: true, productImageURLs: true, productUploaderId: true,productTransmission: true,productYear: true,productLocation: true,productTotalMiles: true,productPriceBeforeDiscount: true, uploader: {select: {userLocation: true, userName: true}}}})
   const serilizedGetCar = {
     ...getCar,
