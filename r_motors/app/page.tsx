@@ -5,9 +5,6 @@ import SearchItems from '@/components/features/products/searchItems';
 import { redirect } from "next/navigation";
 import ExplorMoreButton from '../components/features/home/explorMoreButton';
 
-export const handleNavigation = (link: string) => {
-  redirect(link)
-}
 
 
 export default async function Home() {
