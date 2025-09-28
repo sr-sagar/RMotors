@@ -60,7 +60,7 @@ const ReusableActionComponent = <T extends {id: string}>({data,isEdit = true, ca
 
 
       const handleEditingProductData = async() => {
-        let formValues = {...newValues}
+        const formValues = {...newValues}
         const {value} = await MySwal.fire({
           title: "Edit Value",
           html: 

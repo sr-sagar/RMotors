@@ -1,6 +1,7 @@
 import { getAdminMiddleware, deleteAdminUsersMiddleware, updateAdminUserRoleMiddleware } from '../../../../Middleware/adminMiddleware';
 import { NextResponse } from 'next/server';
 import { getAdminUsersController, deleteAdminUserController, updateAdminUserRoleController } from '../../../../Controller/adminController';
+import { AnyError, getErrorMessage } from '@/utils/anySolver';
 
 export const GET = async(req: Request) => {
     try{
@@ -9,9 +10,9 @@ export const GET = async(req: Request) => {
         const result = await getAdminUsersController(userEmail);
         
         return NextResponse.json(result, {status: result.status});
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }
 
@@ -21,9 +22,9 @@ export const DELETE = async(req: Request) => {
         const result = await deleteAdminUserController(userEmail,userId);
         return NextResponse.json(result, {status: result.status});
 
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }
 
@@ -33,8 +34,8 @@ export const PATCH = async(req: Request) => {
         const result = await updateAdminUserRoleController(userEmail,userId,newUserRole);
         return NextResponse.json(result, {status: result.status});
 
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }

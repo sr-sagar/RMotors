@@ -1,6 +1,4 @@
 import React from 'react'
-import Image from 'next/image';
-import Button from '@/components/(common)/button';
 import { Gauge, Calendar, Fuel, Settings } from 'lucide-react';
 import { prisma } from '../../../../lib/prisma';
 import ButtonSection from '@/components/features/productsPage/buttonSection';

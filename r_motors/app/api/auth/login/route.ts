@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { loginMiddleware } from "../../../../Middleware/userMiddleware";
 import { loginController } from '../../../../Controller/userController';
+import { AnyError, getErrorMessage } from "@/utils/anySolver";
 
 
 export const POST = async(req: Request) => {
@@ -57,10 +58,9 @@ export const POST = async(req: Request) => {
         })
 
         return res;
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message},{ status: 500 })
-
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 
 }

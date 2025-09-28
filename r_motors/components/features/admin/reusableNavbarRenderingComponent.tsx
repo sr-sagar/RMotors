@@ -29,7 +29,7 @@ const ReusableNavbarRenderingComponent = <T,>({data,column,success,message}: Reu
             data.map((row,idx) => (
                 <div key={idx} className='w-full h-max flex justify-between items-center gap-x-2 '>
                     {column.map((item) => (
-                        <p key={item.header} className='text-sm md:text-md '>{item.render? item.render(row) : (row as any)[item.key]}</p>
+                        <p key={item.header} className='text-sm md:text-md '>{item.render? item.render(row) : String((row as Record<string, any>)[item.key as string])}</p>
 
 
                     ))}

@@ -11,8 +11,6 @@ import { getCookies } from '../../../utils/getCookies';
 import ToastComponent from '../../../components/(common)/toastComponent';
 const OverviewGraphs = dynamic(() => import('../../../components/features/admin/(pages)/overviewGraphs'))
 const CarsPage = dynamic(() => import('../../../components/features/admin/(pages)/carsPage'))
-import {redirect} from "next/navigation"
-import navigate from 'next/navigation';
 
 const AdminPage = async() => {
 

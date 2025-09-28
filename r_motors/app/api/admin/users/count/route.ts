@@ -1,6 +1,7 @@
 import { getAdminUserCount } from '@/Controller/adminController';
 import { getAdminMiddleware } from '../../../../../Middleware/adminMiddleware';
 import { NextResponse } from 'next/server';
+import { AnyError, getErrorMessage } from '@/utils/anySolver';
 
 export const GET = async(req: Request) => {
     try{
@@ -8,8 +9,8 @@ export const GET = async(req: Request) => {
         const {userEmail} = await getAdminMiddleware(req);
         const result = await getAdminUserCount(userEmail);
         return NextResponse.json(result, {status: result.status});
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }

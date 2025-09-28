@@ -2,6 +2,7 @@ import { addAdminProductsMiddleware, getAdminMiddleware, deleteAdminProductsMidd
 import { NextResponse } from 'next/server';
 import { addAdminProductsController, getAdminProductsController, deleteAdminProductsController, updateAdminProductsController } from '../../../../Controller/adminController';
 import { devLogger } from '../../../../utils/devLogger';
+import { AnyError, getErrorMessage } from '../../../../utils/anySolver';
 
 export const GET = async(req: Request) => {
     try{
@@ -10,9 +11,9 @@ export const GET = async(req: Request) => {
         const result = await getAdminProductsController(userEmail);
         
         return NextResponse.json(result, {status: result.status});
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }
 
@@ -22,10 +23,10 @@ export const POST = async(req: Request) => {
         const result = await addAdminProductsController({body, files});
         return NextResponse.json(result,{status: result.status});
         
-    }catch(error: any)
+    }catch(error: AnyError)
     {
         devLogger(error)
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }
 
@@ -34,12 +35,12 @@ export const DELETE = async(req: Request) => {
         const {userEmail,productId} = await deleteAdminProductsMiddleware(req);
         const result = await deleteAdminProductsController(userEmail,productId);
         return NextResponse.json(result, {status: result.status})
-    }catch(error: any)
+    }catch(error: AnyError)
     {
         
         
         devLogger(error)
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }
 
@@ -51,10 +52,10 @@ export const PATCH = async(req: Request) => {
         const result = await updateAdminProductsController(userEmail,productId,data);
         return NextResponse.json(result, {status: result.status});
 
-    }catch(error: any)
+    }catch(error: AnyError)
     {
         devLogger(error)
 
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }

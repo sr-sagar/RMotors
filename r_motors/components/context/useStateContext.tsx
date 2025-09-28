@@ -3,8 +3,6 @@ import React from 'react'
 import { useContext,createContext } from 'react'
 import {useState} from 'react';
 import { NormalizedChatProp } from '../../utils/messageFetcher';
-import { CarsDataProps } from '../features/search/searchPageFilter';
-import { string } from 'joi';
 
 type profileInputValueTypeProps = {
     userName: string,
@@ -14,9 +12,7 @@ type profileInputValueTypeProps = {
     userBio: string
 }
 
-type UnreadCountProps = {
-    roomId: string,
-}
+
 
 type contextType = {
     authLoginOrSignup: boolean,

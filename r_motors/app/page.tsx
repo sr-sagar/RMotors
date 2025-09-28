@@ -4,6 +4,7 @@ import { prisma } from '../lib/prisma';
 import SearchItems from '@/components/features/products/searchItems';
 import { redirect } from "next/navigation";
 import ExplorMoreButton from '../components/features/home/explorMoreButton';
+
 export const handleNavigation = (link: string) => {
   redirect(link)
 }
@@ -101,7 +102,7 @@ export default async function Home() {
         <ol className="w-full h-max flexClass flex-col list-disc gap-y-2 text-center">
           <li>All vehicles are sold as-is - please inspect thoroughly before purchase</li>
           <li>No returns or warranties - what you see is what you get</li>
-          <li>Direct contact with seller - we're here to answer your questions</li>
+          <li>Direct contact with seller - we&apos;re here to answer your questions</li>
           <li>Fair pricing with no hidden fees or surprises</li>
         </ol>
       </section>

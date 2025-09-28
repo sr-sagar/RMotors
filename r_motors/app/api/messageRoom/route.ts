@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getMessageRoomMiddleware, createMessageRoomMiddleware } from '../../../Middleware/userMiddleware';
 import { getMessageRoomController, createMessageRoomController } from '../../../Controller/userController';
+import { AnyError, getErrorMessage } from '@/utils/anySolver';
 
 
 export const GET = async(req: Request) => {
@@ -10,9 +11,9 @@ export const GET = async(req: Request) => {
         const result = await getMessageRoomController(userEmail);
         return NextResponse.json(result , {status: result.status})
 
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }
 
@@ -22,8 +23,8 @@ export const POST = async(req: Request) => {
         const {userEmail,productId, productOwnerId} = await createMessageRoomMiddleware(req);
         const result = await createMessageRoomController(userEmail,productId,productOwnerId);
         return NextResponse.json(result, {status: result.status});
-    }catch(error: any)
+    }catch(error: AnyError)
     {
-        return NextResponse.json({message: error.message}, {status: 500});
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
 }

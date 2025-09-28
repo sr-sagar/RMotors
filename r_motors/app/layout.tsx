@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/(common)/navbar";
 import { ScreenSizeContextProvider } from "../components/context/ScreenSizeContext";
 import { ChoiceBoxFilterProvider } from '../components/context/choiceBoxFilters';
-import Footer from "@/components/(common)/footer";
 import { StateContextProvider } from "@/components/context/useStateContext";
 import { Toaster } from "react-hot-toast";
 
