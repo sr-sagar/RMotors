@@ -7,7 +7,7 @@ export const postRequestForLoginAndSignup = async(data: object,url: string) => {
     "rmotors-theta.vercel.app"
   ]
 
-  const req = await fetch(`${getBackendUrl()}/api/auth/loginAndSignupWrapper`, {
+  const req = await fetch(`${await getBackendUrl()}/api/auth/loginAndSignupWrapper`, {
     method: "POST",
     headers: {
         "Content-Type": "application/json",
