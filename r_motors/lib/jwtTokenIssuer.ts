@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { devLogger } from '../utils/devLogger';
 
 export const jwtTokenIssuer = (payload: object ,expiresIn: number): string | undefined => {
     try{
@@ -8,7 +9,7 @@ export const jwtTokenIssuer = (payload: object ,expiresIn: number): string | und
         return token;
         }catch(error)
         {
-            console.log("JWT signing error.", error);
+            devLogger("JWT signing error.", error);
             return undefined
 
         }

@@ -1,15 +1,22 @@
 import { postRequestWithAuth } from "./postRequestWithAuth"
  
-export type handleChatProps = {
+export type NormalizedChatProp = {
     id?: string,
-    ownerId: string,
+    senderId: string,
     receiverId: string,
     message: string,
+    roomId?: string,
+    productUploaderId?: string
 }
 
-export const handleChat = async(chat?: string | undefined,userEmail?: string,receiverID?: string): Promise<handleChatProps> => {
-    const sendChatRequest = await postRequestWithAuth("message",{userEmail: userEmail, userMessage: chat, receiverId: receiverID} )
-    const { id,ownerId,receiverId,message } = await sendChatRequest.res.Message; 
-    return {id, ownerId,receiverId,message}
+
+
+export const handleChat = async(chat?: string | undefined,userEmail?: string,receiverID?: string,roomID?: string): Promise<NormalizedChatProp> => {
+
+    const sendChatRequest = await postRequestWithAuth(`message/${roomID}`,{userEmail: userEmail, userMessage: chat, receiverId: receiverID,roomId: roomID} )
+
+    const { id,senderId,receiverId,message,roomId} = await sendChatRequest.res.data; 
+
+    return {id, senderId,receiverId,message,roomId}
     
   }

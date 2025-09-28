@@ -16,13 +16,13 @@ export const postRequestWithAuth = async(url: string,data: object) => {
   });
 
   const res = await req.json();
-  if(req.status === 200 || req.status === 201)
+  if(res.success)
   {
-    console.log(res)
-    return {res: res, status: req.status};
+    return {res: res, status: req.status, success: res.success};
   }
   else{
-    throw new Error("Internal Server Error")
+    return {res: res,success: res.success};
+
   }
 }
 

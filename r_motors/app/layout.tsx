@@ -6,6 +6,7 @@ import { ScreenSizeContextProvider } from "../components/context/ScreenSizeConte
 import { ChoiceBoxFilterProvider } from '../components/context/choiceBoxFilters';
 import Footer from "@/components/(common)/footer";
 import { StateContextProvider } from "@/components/context/useStateContext";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,10 +44,8 @@ export default function RootLayout({
                 </header>
                 <div>
                   {children}
+                  <Toaster position="top-right" gutter={8} toastOptions={{duration: 3000, position: "top-center"}} reverseOrder={false} />
                 </div>
-                <footer className="mt-4">
-                  <Footer />
-                </footer>
               </StateContextProvider>
             </ChoiceBoxFilterProvider>
           </ScreenSizeContextProvider>

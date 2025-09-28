@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚗 RMotors — Second-hand Car Marketplace (WIP)
 
-## Getting Started
+**RMotors** is a full-stack platform for buying and selling used cars. Shoppers can **browse, filter, and chat**; sellers **contact the admin** to list vehicles (no self-posting).  
+The stack features **Next.js (App Router, TypeScript)** on the web, **PostgreSQL + Prisma** for data, and a dedicated **Socket.IO server (Express/Node.js)** for real-time chat. An **Admin Dashboard** includes **sales & profit analytics (Recharts)** and management for **users, orders, and products**.
 
-First, run the development server:
+> Status: **Active development**. Optimizations like **dynamic imports/lazy loading** and **caching/revalidation** are planned.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Key Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Customer
+- 🔎 **Advanced search & filters**: price (high→low / low→high), brand/model, etc.
+- 📄 **Rich listings**: photos, specs, pricing.
+- 💬 **Real-time chat** with admin via Socket.IO.
+- 🔐 **JWT-based auth** (in progress).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Admin
+- 🚘 **Admin-managed listings**: add/update cars on behalf of sellers.
+- 👥 **User management**.
+- 🛒 **Orders & products management**.
+- 📈 **Analytics**: profit & sales reports with **Recharts**.
+- ✅ **Validation**: **Joi** schema validation on critical endpoints.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧱 Tech Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Web**: Next.js (App Router) + TypeScript, Tailwind CSS  
+- **API**: Route/Middleware/Controller pattern  
+- **DB**: PostgreSQL + Prisma ORM  
+- **Real-time**: Socket.IO on **Express/Node.js** (separate server)  
+- **Auth & Validation**: JWT, Joi  
+- **Charts**: Recharts  
+- **Planned Perf**: Dynamic imports, lazy loading, caching/revalidation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

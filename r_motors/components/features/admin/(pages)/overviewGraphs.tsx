@@ -4,26 +4,36 @@ import { CartesianGrid, Legend, Bar, BarChart, ResponsiveContainer, Tooltip, XAx
 import { useScreenSize } from '../../../context/ScreenSizeContext';
 import Cards from '../cards';
 import { Box, ShoppingCart, TrendingUp, User } from 'lucide-react';
-const OverviewGraphs = () => {
+
+type CarsAnalyticDataProps = {
+    month: string,
+    totalsales: number,
+    totalcost: number,
+    profit: number,
+
+}
+
+const OverviewGraphs = ({totalUsersCount,totalCarsCount,totalCarSales,totalRevenue,data} : {totalUsersCount: number,totalCarsCount: number,totalCarSales: number,totalRevenue: number,data: CarsAnalyticDataProps[]}) => {
+
 
 
     const {isMobile, width} = useScreenSize()
 
 
-    const data = [
-        { name: 'Jan', sales: 4000, profit: 2400 },
-        { name: 'Feb', sales: 3000, profit: 1398 },
-        { name: 'Mar', sales: 2000, profit: 9800 },
-        { name: 'Apr', sales: 2780, profit: 3908 },
-        { name: 'May', sales: 1890, profit: 4800 },
-        { name: 'Jun', sales: 2390, profit: 3800 },
-        { name: 'Jul', sales: 3490, profit: 4300 },
-    ]
+    const numricData = data.map((item) => ({
+        month: item.month,
+        totalsales: Number(item.totalsales),
+        totalcost: Number(item.totalcost),
+        profit: Number(item.profit)
+
+    }))
+    
+
     const cardsArray = [
-        {title: "Total Cars", totalAmt: "1,847", lastMonthPercent: "+12",iconName: Box},
-        {title: "Active Users", totalAmt: "18,291", lastMonthPercent: "+8",iconName: User},
-        {title: "Car Sales", totalAmt: "2,429", lastMonthPercent: "+23",iconName: ShoppingCart},
-        {title: "Revenue", totalAmt: "$2.4M", lastMonthPercent: "+15",iconName: TrendingUp},
+        {title: "Total Cars", totalAmt: `${totalCarsCount}`, lastMonthPercent: "+12",iconName: Box},
+        {title: "Active Users", totalAmt: `${totalUsersCount}`, lastMonthPercent: "+8",iconName: User},
+        {title: "Car Sales", totalAmt: `${totalCarSales}`, lastMonthPercent: "+23",iconName: ShoppingCart},
+        {title: "Revenue", totalAmt: `${totalRevenue}`, lastMonthPercent: "+15",iconName: TrendingUp},
       ]
   return (
     <div className='w-full h-max flexClass flex-col gap-y-2 md:gap-x-2'>
@@ -38,13 +48,13 @@ const OverviewGraphs = () => {
 
             <div className='w-full md:w-1/2 h-max shadow-md border-gray-200 border-3 rounded-md flexClass ' >
                 <ResponsiveContainer width='100%' height={isMobile? 300 : 400}>
-                    <BarChart data={data} margin={{left: 0, right: 15}}>
+                    <BarChart data={numricData} margin={{left: 0, right: 15}}>
                         <CartesianGrid strokeDasharray="3 3"/>
-                        <XAxis dataKey={'name'}/>
+                        <XAxis dataKey={'month'}/>
                         <YAxis dataKey={'profit'}/>
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey={'sales'} />
+                        <Bar dataKey={'totalsales'} />
                         <Bar dataKey={'profit'} fill='#8884d8'/>
                     </BarChart>
                 </ResponsiveContainer>
@@ -54,9 +64,9 @@ const OverviewGraphs = () => {
                 <ResponsiveContainer width={'100%'} height={isMobile? 300 : 400}>
                     <PieChart>
                         <Pie 
-                        data={data}
-                        dataKey={'sales'}
-                        nameKey={'name'}
+                        data={numricData}
+                        dataKey={'totalsales'}
+                        nameKey={'month'}
                         cx={'50%'}
                         cy={'50%'}
                         outerRadius={width > 786? 100 : 50}

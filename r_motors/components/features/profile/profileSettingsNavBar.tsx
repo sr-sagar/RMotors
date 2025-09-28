@@ -3,6 +3,12 @@ import InputBox from '@/components/(common)/inputBox'
 import { useStateContext } from '@/components/context/useStateContext'
 import React, { useState } from 'react'
 import Button from '@/components/(common)/button';
+import { useEffect } from 'react';
+import { confirmAction, serverAlert } from '../../../utils/sweetAleart';
+import { deleteUserProfileFunction, editUserDetailsFunction } from '../../../app/(pages)/profile/page';
+import { clearAllCookies, deleteCookies } from '../../../utils/getCookies';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -10,6 +16,7 @@ type profileArrayProps = {
     type: string,
     placeHolder: string,
     key: string,
+    label: string,
     id: number,
 }
 type settingArrayProps = {
@@ -17,33 +24,147 @@ type settingArrayProps = {
     desc: string,
     btnText: string,
     id: number,
+    func: () => Promise<void>,
 }
-const ProfileSettingsNavBar = () => {
-    const {onSettings,setOnSettings} = useStateContext()
-    const [inputvalue,setInputValue] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        location: "",
-        bio: "",
-    })
+const ProfileSettingsNavBar = ({initialValues}: {initialValues: {userName: string,userEmail: string,userPhoneNumber: string,userLocation: string,userBio: string}}) => {
+    
+    const router = useRouter()
+    // this fetches the current values of the user and sets/shows them in the input feilds.
+    useEffect(() => {
+
+        setInputValue(initialValues)
+
+    },[initialValues])
+    const {onSettings,setOnSettings,isProfileEditing,inputvalue,setInputValue} = useStateContext()
+    
 
     const handleInputValues = (key : string,val: string) => {
         setInputValue((prev) => ({...prev,  [key]: val}));
     }
 
+
+    const handleDeleteUser = async() => {
+        const confirm = await confirmAction(
+            "Are You Sure?",
+            "This will permanently delete you account.",
+            "Delete",
+            "Cancel",
+        )
+
+        if(confirm)
+        {
+            await deleteUserProfileFunction();
+            await clearAllCookies()
+            localStorage.removeItem("token");
+            await serverAlert(
+                "success",
+                "account deleted successfully.",
+                true,
+            )
+            window.location.href = "/";
+        }
+        else{
+            await serverAlert(
+                "canceled",
+                "account was not deleted.",
+                true,
+            ) 
+        }
+    }
+
+
+    const handleUpdateUserPassword = async() => {
+        const confirm = await confirmAction(
+            "Are You Sure?",
+            "This will change you current password.",
+            "Change",
+            "Cancel",
+        )
+
+        if(confirm)
+        {
+            const {value: newPassword} = await Swal.fire({
+                title: "Enter Your Password.",
+                input: "password",
+                inputPlaceholder: "Enter your new password",
+                showCancelButton: true,
+                confirmButtonText: "Change",
+                cancelButtonText: "Cancel",
+                preConfirm: (value) => {
+                    if(!value)
+                    {
+                        Swal.showValidationMessage("Password cannot be empty.");
+                        return false;
+                    }
+                    return value
+                },
+            })
+            if(newPassword)
+            {
+
+                await editUserDetailsFunction({userPassword: newPassword});
+                await serverAlert(
+                    "success",
+                    "password changed successfully.",
+                    true,
+                )
+                router.refresh()
+            }
+            
+        }
+        else{
+            await serverAlert(
+                "canceled",
+                "password was not changed.",
+                true,
+            ) 
+        }
+    }
+    const handleUserLogout = async() => {
+        const confirm = await confirmAction(
+            "Are You Sure?",
+            "This will log you out.",
+            "Logout",
+            "Cancel",
+        )
+
+        if(confirm)
+        {            
+            await clearAllCookies()
+            localStorage.removeItem("token");
+            await serverAlert(
+                "success",
+                "logged-out successfully.",
+                true,
+            )
+            location.replace("/")
+
+            
+        }
+        else{
+            await serverAlert(
+                "canceled",
+                "you are still logged-in.",
+                true,
+            ) 
+        }
+    }
+
     const profileArray: profileArrayProps[] = [
-        {type: "text", placeHolder: "name",key: 'name', id: 1 },
-        {type: "text", placeHolder: "email",key: 'email', id: 2 },
-        {type: "text", placeHolder: "phone",key: 'phone', id: 3 },
-        {type: "text", placeHolder: "location",key: 'location', id: 4 },
-        {type: "text", placeHolder: "bio",key: 'bio', id: 5 },
+        {type: "text", placeHolder: "name",key: 'userName',label: "Name" , id: 1 },
+        {type: "text", placeHolder: "email",key: 'userEmail',label: "Email" , id: 2 },
+        {type: "text", placeHolder: "phone",key: 'userPhoneNumber',label: "Phone" , id: 3 },
+        {type: "text", placeHolder: "edit this to enter a location",key: 'userLocation',label: "Location" , id: 4 },
+        {type: "text", placeHolder: "edit this to enter a bio",key: 'userBio',label: "Bio" , id: 5 },
     ]
 
     const settingsArray: settingArrayProps[] = [
-        {title: "Security", desc: "Manage passwords and authentication.",btnText: "Update", id: 1},
-        {title: "Delete Account", desc: "Permanently delete your account and data.",btnText: "Delete",id: 2}
+        {title: "Security", desc: "Manage passwords and authentication.",btnText: "Update", id: 1, func: handleUpdateUserPassword},
+        {title: "Delete Account", desc: "Permanently delete your account and data.",btnText: "Delete",id: 2, func: handleDeleteUser},
+        {title: "LogOut", desc: "Logout of your account, you can come back later.",btnText: "Logout", id: 3, func: handleUserLogout},
     ]
+
+
   return (
     <div className='w-full h-full rounded-md flexClass flex-col '>
     {/* change this with the reusable one */}
@@ -64,7 +185,7 @@ const ProfileSettingsNavBar = () => {
                         <p className='text-sm'>{item.desc}</p>
                     </div>
                     <div>
-                        <Button btnText={item.btnText} btnWidth={100} />
+                        <Button btnText={item.btnText} btnWidth={100} onClickFunc={item.func}/>
                     </div>
                 </div>
             ))
@@ -77,9 +198,9 @@ const ProfileSettingsNavBar = () => {
             {profileArray.map((item) => (
                 <div key={item.id} className='flex flex-col justify-between items-start last:col-span-2 w-full'>
                     <div className='w-full h-full flexClass'>
-                        <p className='w-full  max-w-[300px]'>{item.key}</p>
+                        <p className='w-full  max-w-[300px]'>{item.label}</p>
                     </div>
-                    <InputBox key={item.id} inputPlaceholder={item.placeHolder} inputType={item.type} inputWidth={100} value={inputvalue[item.key as keyof typeof inputvalue]} setValue={handleInputValues} name={item.key} className='last:col-span-2 '/>
+                    <InputBox key={item.id} inputPlaceholder={item.placeHolder} inputType={item.type} inputWidth={100} value={inputvalue[item.key as keyof typeof inputvalue]} setValue={handleInputValues} name={item.key} className='last:col-span-2 ' isDisabled={!isProfileEditing}/>
                 </div>
             ))
 

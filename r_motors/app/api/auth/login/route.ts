@@ -10,7 +10,7 @@ export const POST = async(req: Request) => {
         const result = await loginController(email,password);
 
 
-        const res = NextResponse.json({result},{status: 200});
+        const res = NextResponse.json(result,{status: 200});
         res.cookies.set("token", result.token ?? "",{
                 httpOnly: true,
                 secure: false,
@@ -41,11 +41,25 @@ export const POST = async(req: Request) => {
             path: "/",
             maxAge: 7 * 60 * 60,
         })
+        res.cookies.set("userName", result.userName ?? "",{
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 7 * 60 * 60,
+        })
+        res.cookies.set("userPhoneNumber", result.userPhoneNumber ?? "",{
+            httpOnly: true,
+            secure: true,
+            sameSite: "lax",
+            path: "/",
+            maxAge: 7 * 60 * 60,
+        })
+
         return res;
-    }catch(error)
+    }catch(error: any)
     {
-        console.log(error);
-        return NextResponse.json({message: "Internal server error."},{ status: 500 })
+        return NextResponse.json({message: error.message},{ status: 500 })
 
     }
 

@@ -1,4 +1,5 @@
 "use server"
+import { devLogger } from './devLogger';
 
 export const getRequest = async(url: string) => {
     const backend_url = process.env.BACKEND_URL!;
@@ -11,14 +12,16 @@ export const getRequest = async(url: string) => {
   });
 
   const res = await req.json();
-  if(req.status === 200)
+  if(res.success)
   {
 
-    console.log(res)
-    return {res: res, status: req.status};
+    devLogger(res)
+    return {res: res, status: req.status, success: res.success};
   }
   else{
-    throw new Error("Internal Server Error")
+    return {res: res,success: res.success};
+
   }
+
 }
 

@@ -1,4 +1,5 @@
 "use client"
+import { devLogger } from './devLogger';
 export const postRequestForLoginAndSignup = async(data: object,url: string) => {
   const req = await fetch(`http://localhost:3000/api/auth/loginAndSignupWrapper`, {
     method: "POST",
@@ -9,13 +10,15 @@ export const postRequestForLoginAndSignup = async(data: object,url: string) => {
   });
 
   const res = await req.json();
-  if(req.status === 201 || req.status === 200)
+  if(res.success)
   {
-    console.log(res)
-    return {res: res, status: req.status};
+    devLogger(res)
+    return {res: res, status: req.status, success: res.success};
   }
   else{
-    throw new Error(res.message)
+    return {res: res,success: res.success};
+
+    
   }
 }
 

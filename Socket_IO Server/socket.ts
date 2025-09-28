@@ -35,17 +35,19 @@ io.on("connection", (socket: Socket) => {
         socket.join(roomId)
         console.log(`Socket id ${socket.id} connected to the room ${roomId}`)
 
-        const room = io.sockets.adapter.rooms.get(roomId)
-        const socketCount = room? room.size : 0;
         
 
     })
 
-    socket.on("sendMessage", (msg: handleChatProps, roomId: string) => {
+    socket.on("sendMessage", (msg: handleChatProps,roomId: string ) => {
         console.log("message received", msg)
         socket.to(roomId).emit("message", msg)
+         
 
+        // io.to(roomId).emit("unreadMessage", roomId, 1);
     })
+
+
     socket.on("disconnect", () => {
         console.log("Client Disconnected", socket.id)
     })

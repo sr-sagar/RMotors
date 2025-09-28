@@ -37,16 +37,18 @@ body {
   @apply bg-[#4a3aff]
 }
 .navbarItems {
-  @apply cursor-pointer border-b-1 border-white md:border-none w-full text-center  active:scale-95 transform transition font-bold; 
+  @apply cursor-pointer  border-white md:border-none w-full text-center  active:scale-95 transform transition font-bold; 
 }
 
 h1{
-  @apply text-[#1d1d1f] 
+  /* @apply text-[#1d1d1f]  */
+  @apply text-[#212327] 
 }
 
 p{
   /* @apply text-[#6e6e73] */
-  @apply text-[#B0B0B0]
+  /* @apply text-[#B0B0B0] */
+  @apply text-[#5E6B75]
 }
 
 input{
@@ -78,3 +80,11 @@ input{
   @apply cursor-pointer w-1/2 text-center rounded-md;
 }
 
+.orderSpecifications{
+  @apply w-max h-max  flex justify-center items-center flex-col md:flex-row gap-x-2;
+}
+
+.largeShadow:hover{
+  @apply  shadow-[0px_0px_10px_2px] shadow-blue-100;
+  
+}

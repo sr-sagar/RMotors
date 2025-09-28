@@ -1,16 +1,18 @@
 import { useEffect,useRef } from 'react';
 import {Socket, io} from "socket.io-client";
-import { handleChatProps } from '../../utils/messageFetcher';
+import { NormalizedChatProp } from '../../utils/messageFetcher';
 
 type ServerToClient = {
-    message: (msg: handleChatProps) => void
+    message: (msg: NormalizedChatProp) => void
 }
 
 type ClientToServer = {
-    sendMessage: (msg: handleChatProps, roomId: string) => void,
+    sendMessage: (msg: NormalizedChatProp, roomId: string) => void,
     joinRoom: (room: string) => void,
     // leaveRoom: (room: string) => void
 }
+
+
 
 export const useSocket = (roomId: string) => {
     const socketRef = useRef<Socket<ServerToClient,ClientToServer> | null>(null)
@@ -21,7 +23,6 @@ export const useSocket = (roomId: string) => {
 
         socketRef.current.emit("joinRoom", roomId);
 
-        // socketRef.current.emit("sendMessage", )
 
 
         
@@ -39,3 +40,22 @@ export const useSocket = (roomId: string) => {
 
   return socketRef;
 };
+
+
+// export const useUnreadMsgCounter = (handler: (roomId: string,count: number) => void) => {
+//     const socket = useRef<Socket | null>(null)
+//     useEffect(() => {
+//         socket.current = io("http://localhost:3001", {transports: ["websocket","pooling"]});
+
+//         socket.current.on("unreadMessages", (roomId: string,count: number) => {
+//             console.log("unreadMessages", roomId, count)
+//             handler(roomId,count)
+//         })
+
+//         return () => {
+//             socket.current?.disconnect();
+//         }
+//     },[])
+
+//     return socket;
+// }

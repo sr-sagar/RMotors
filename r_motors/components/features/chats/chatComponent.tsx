@@ -1,13 +1,23 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
-import { useStateContext } from '../../context/useStateContext';
-import { useEffect } from 'react';
-const ChatComponent = ({roomId}:{roomId:string}) => {
-    const {setChatRoomId} = useStateContext()
-    useEffect(() => {
-      setChatRoomId(roomId)
-    },[roomId])
+const ChatComponent = ({chatTitle,unreadCount,messageDetails}: {chatTitle: string, unreadCount: number,  messageDetails: {message: string, sentAt: string} | {message: string, sentAt: string}[]}) => {
+  let lastMessage: string;
+  let lastSent: string[];
+
+  
+
+  if(messageDetails && Array.isArray(messageDetails))
+  {
+    lastMessage = messageDetails[messageDetails.length -1]?.message
+    lastSent = messageDetails[messageDetails.length -1]?.sentAt.split(" ").slice(0,4);
+
+  }
+  else{
+    lastMessage = messageDetails.message
+    lastSent = messageDetails.sentAt.split(" ").slice(0,4)
+  }
+
   return (
     <div className='w-full h-max p-2 flexClass gap-x-4 '>
         <div className='w-[80px] h-full flexClass p-1'>
@@ -15,13 +25,13 @@ const ChatComponent = ({roomId}:{roomId:string}) => {
         </div>
         <div className='w-full h-max flexClass flex-col'>
           <div className='w-full h-max flex justify-between items-center'>
-            <p>Sarah Wilson</p>
+            <p>{chatTitle}</p>
             <div className='w-max h-max flexClass p-1 gap-x-2'>
-              <p className='text-sm md:text-md '>2 min ago</p>
-              <p className='w-max h-max rounded-md text-sm md:text-md bg-blue-700 rounded-md px-4 py-1 '>2</p>
+              <p className='text-sm md:text-md '>{lastSent? lastSent[0] : "N/A"}</p>
+              <p className='w-max h-max rounded-md text-sm md:text-md bg-blue-700 rounded-md px-4 py-1 '>{unreadCount}</p>
             </div>
           </div>
-          <p className='w-full text-start'>whats the price of this car?</p>
+          <p className='w-full text-start'>{lastMessage ?? "N/A"}</p>
         </div>
     </div>
   )

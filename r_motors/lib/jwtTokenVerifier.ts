@@ -1,4 +1,5 @@
 import jwt,{JwtPayload} from "jsonwebtoken";
+import { devLogger } from '../utils/devLogger';
 export const jwtTokenVerifier = (req: Request) => {
     const authHeader = req.headers.get("Authorization");
     const token = authHeader?.split(" ")[1];
@@ -13,7 +14,7 @@ export const jwtTokenVerifier = (req: Request) => {
         return decode;
     }catch(error)
     {
-        console.log(error)
+        devLogger(error)
         throw new Error("something went wrong");
         
     }

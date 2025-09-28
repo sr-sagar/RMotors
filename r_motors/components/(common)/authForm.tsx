@@ -5,16 +5,17 @@ import InputBox from './inputBox';
 import Button from './button';
 import {useState} from 'react';
 import { postRequestForLoginAndSignup } from '@/utils/postRequestForLoginAndSignup';
-import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
+
 
 type authType  = {
     type: string,
     placeHolder: string,
     key: string,
+    label: string,
     id: number,
 }
 const AuthForm = () => {
-    const router = useRouter()
     const {authLoginOrSignup,setAuthLoginOrSignup} = useStateContext();
 
     const [loginValue,setLoginValue] = useState({
@@ -37,15 +38,15 @@ const AuthForm = () => {
     }
     
     const login: authType[] = [
-        {type: "text", placeHolder: "Email", key: "email",id: 1},
-        {type: "password", placeHolder: "Password", key: "password",id: 2},
+        {type: "text", placeHolder: "Enter your email", key: "email",label: "Email",id: 1},
+        {type: "password", placeHolder: "Enter your password", key: "password",label: "Password",id: 2},
     ]
     const signup: authType[] = [
-        {type: "text", placeHolder: "Email", key: "email",id: 1},
-        {type: "text", placeHolder: "User Name", key: "userName",id: 2},
-        {type: "text", placeHolder: "Phone Number", key: "phoneNumber",id: 3},
-        {type: "password", placeHolder: "Password", key: "password",id: 4},
-        {type: "password", placeHolder: "Confirm Password", key: "confirmPassword",id: 5},
+        {type: "text", placeHolder: "Jhon Deo", key: "userName",label: "Username",id: 1},
+        {type: "text", placeHolder: "Jhon@example.com", key: "email",label: "Email",id: 2},
+        {type: "text", placeHolder: "+91 7890000000", key: "phoneNumber",label: "Phone Number",id: 3},
+        {type: "password", placeHolder: "Create a strong password with atlest 6 characters", key: "password",label: "Password",id: 4},
+        {type: "password", placeHolder: "Confirm your password", key: "confirmPassword",label: "Confirm Password",id: 5},
     ]
 
     const values = authLoginOrSignup ? loginValue : signupValue;
@@ -53,13 +54,23 @@ const AuthForm = () => {
 
     const handleLoginAndSignup = async(data: object, isLogin: boolean) => {
         const url = isLogin? "login" : "signup"
-        const req = await postRequestForLoginAndSignup(data, url);
-        if(req.status === 201 || req.status === 200)
+        const res = await postRequestForLoginAndSignup(data, url);
+        if(!res.success)
         {
-            console.log(`${url === "login"? "login successfull." : "signup successfull."}`)
-            router.push("/");
+            return toast.error(res.res.message, {
+                duration: 3000,
+                position: "top-center",
+            })
             
         }
+        
+        const message = url === "login"? "login successfull." : "signup successfull."
+        toast.success(message, {
+            duration: 3000,
+            position: "top-center",
+        })
+        location.replace("/")
+
         
       }
       const handleBtnClick = () => {
@@ -85,19 +96,24 @@ const AuthForm = () => {
         }
     }
   return (
-    <div className='w-full h-full flexClass flex-col'>
-        <h2 className='mb-6'>{authLoginOrSignup? "Login" : "SignUp"}</h2>
+    <div className='w-full h-full flexClass flex-col p-4'>
+        <h2 className='mb-2'>{authLoginOrSignup? "Welcome back" : "Create account"}</h2>
+        <p className='mb-6 text-center'>{authLoginOrSignup? "Sign in to your account to continue" : "Join us to find your perfect car"}</p>
         <div className='w-full h-full flexClass flex-col gap-y-4 max-w-[350px]'>
             {(authLoginOrSignup? login : signup).map((item) => (
-                <InputBox key={item.id} inputType={item.type}  inputPlaceholder={item.placeHolder} inputWidth={100} value={values[item.key as keyof typeof values]} setValue={setValues} name={item.key}/>
+                <div key={item.id} className='space-y-2 w-full'>
+
+                    <p>{item.label}</p>
+                    <InputBox key={item.id} inputType={item.type}  inputPlaceholder={item.placeHolder} inputWidth={100} value={values[item.key as keyof typeof values]} setValue={setValues} name={item.key} inputMaxWidth={400}/>
+                </div>
             ))
             }
-            <div className=' w-full h-full mt-2 flexClass flex-col'>
-                <Button btnText='Submit' btnWidth={100} onClickFunc={handleBtnClick}/>
+            <div className=' w-full h-full mt-2 flexClass flex-col gap-y-2'>
+                <Button btnText={authLoginOrSignup? "Sign In" : "Create Account"} btnWidth={100} onClickFunc={handleBtnClick} />
                 {authLoginOrSignup? 
-                    <p>Don't have an account?<span onClick={() => setAuthLoginOrSignup(false)} className='text-blue-400'>SignUp</span></p>
+                    <p className='cursor-pointer'>Don't have an account?<span onClick={() => setAuthLoginOrSignup(false)} className='text-blue-400'>SignUp</span></p>
                     :
-                    <p>Have an account?<span onClick={() => setAuthLoginOrSignup(true)} className='text-blue-400'>LogIn</span></p>
+                    <p className='cursor-pointer'>Have an account?<span onClick={() => setAuthLoginOrSignup(true)} className='text-blue-400'>LogIn</span></p>
                 }
             </div>
 

@@ -1,9 +1,9 @@
 "use client"
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { useStateContext } from '../../context/useStateContext';
+import { useStateContext } from '../context/useStateContext';
 
-const InternalNavbarAdmin = ({stateNameArray}: {stateNameArray: string[]}) => {
+const InternalNavbarComponent = ({stateNameArray}: {stateNameArray: string[]}) => {
     const {activeTab,setActiveTab} = useStateContext()
     useEffect(() => {
         setActiveTab(stateNameArray[0])
@@ -26,4 +26,4 @@ const InternalNavbarAdmin = ({stateNameArray}: {stateNameArray: string[]}) => {
   )
 }
 
-export default InternalNavbarAdmin
+export default InternalNavbarComponent

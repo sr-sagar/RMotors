@@ -2,37 +2,74 @@
 import React from 'react'
 import { useContext,createContext } from 'react'
 import {useState} from 'react';
-import { handleChatProps } from '../../utils/messageFetcher';
+import { NormalizedChatProp } from '../../utils/messageFetcher';
+import { CarsDataProps } from '../features/search/searchPageFilter';
+import { string } from 'joi';
+
+type profileInputValueTypeProps = {
+    userName: string,
+    userEmail: string,
+    userPhoneNumber: string,
+    userLocation: string,
+    userBio: string
+}
+
+type UnreadCountProps = {
+    roomId: string,
+}
 
 type contextType = {
     authLoginOrSignup: boolean,
     setAuthLoginOrSignup: React.Dispatch<React.SetStateAction<boolean>>,
-    messageOwnerId: string,
-    setMessageOwnerId: React.Dispatch<React.SetStateAction<string>>
-    messageReceiverId: string,
-    setMessageReceiverId: React.Dispatch<React.SetStateAction<string>>
     chatRoomId: string,
     setChatRoomId: React.Dispatch<React.SetStateAction<string>>
-    msg: handleChatProps[],
-    setMsg: React.Dispatch<React.SetStateAction<handleChatProps[]>>
+    msg: NormalizedChatProp[],
+    setMsg: React.Dispatch<React.SetStateAction<NormalizedChatProp[]>>
     onSettings: boolean,
     setOnSettings: React.Dispatch<React.SetStateAction<boolean>>
     activeTab: string,
-    setActiveTab: React.Dispatch<React.SetStateAction<string>>
-
+    setActiveTab: React.Dispatch<React.SetStateAction<string>>,
+    isProfileEditing: boolean,
+    setIsProfileEditing: React.Dispatch<React.SetStateAction<boolean>>,
+    inputvalue: profileInputValueTypeProps,
+    setInputValue: React.Dispatch<React.SetStateAction<profileInputValueTypeProps>>
 }
 const StateVariableContext = createContext<contextType | undefined>(undefined);
 
 export const StateContextProvider = ({children}: {children: React.ReactNode}) => {
     const [authLoginOrSignup,setAuthLoginOrSignup] = useState(false)
-    const [messageOwnerId,setMessageOwnerId] = useState("")
-    const [messageReceiverId,setMessageReceiverId] = useState("")
     const [chatRoomId,setChatRoomId] = useState("")
-    const [msg,setMsg] = useState<handleChatProps[]>([])
+    const [msg,setMsg] = useState<NormalizedChatProp[]>([])
     const [onSettings,setOnSettings] = useState(false)
     const [activeTab,setActiveTab] = useState("")
+    const [isProfileEditing,setIsProfileEditing] = useState(false)
+    const [inputvalue,setInputValue] = useState({
+        userName: "",
+        userEmail: "",
+        userPhoneNumber: "",
+        userLocation: "",
+        userBio: "",
+    })
+
+    
+
     return (
-    <StateVariableContext.Provider value={{authLoginOrSignup,setAuthLoginOrSignup, messageOwnerId,setMessageOwnerId,messageReceiverId,setMessageReceiverId,chatRoomId,setChatRoomId,msg,setMsg,onSettings,setOnSettings,activeTab,setActiveTab}}>
+    <StateVariableContext.Provider value={{
+        authLoginOrSignup,
+        setAuthLoginOrSignup, 
+        chatRoomId,
+        setChatRoomId,
+        msg,
+        setMsg,
+        onSettings,
+        setOnSettings,
+        activeTab,
+        setActiveTab,
+        isProfileEditing,
+        setIsProfileEditing,
+        inputvalue,
+        setInputValue,
+    }}>
         {children}
     </StateVariableContext.Provider>
   )

@@ -1,49 +1,57 @@
 "use client"
 import React, { useState } from 'react'
-import { handleChatProps } from '../../../utils/messageFetcher';
+import { NormalizedChatProp } from '../../../utils/messageFetcher';
 import { useEffect } from 'react';
 import { useSocket } from '../../hooks/useSocket';
-import { getRequestWithAuth } from '@/utils/getRequestWithAuth';
+
 import { useStateContext } from '../../context/useStateContext';
 import { getCookies } from '../../../utils/getCookies';
+import { updateRequestWithAuth } from '../../../utils/updateRequestWithAuth';
+import { devLogger } from '../../../utils/devLogger';
 
+type messageProps = {
+  id: string,
+  message: string,
+  ownerId: string,
+  receiverId: string,
+  roomId: string,
+  sentAt: Date,
+}
 
-const ChatDisplayComponent = () => {
-  const {setMessageOwnerId,setMessageReceiverId,chatRoomId,msg,setMsg} = useStateContext()
-  const socketRef = useSocket(chatRoomId)
-  const [currentOwner, setCurrentOwner] = useState<string | null>("");
-
+const ChatDisplayComponent = ({roomId,messages}: {roomId: string,messages: NormalizedChatProp[]}) => {
+  const {chatRoomId,msg,setMsg} = useStateContext()
+  const socketRef = useSocket(roomId)
+  const [currentOwner, setCurrentOwner] = useState<string | undefined>(undefined);
   
+
+
+
+
   useEffect(() => {
     
       const fetchMessages = async() => {
-        const initialMessage = await getRequestWithAuth("message")
-        const {res} = initialMessage;
-        setMsg(res.messages)
-        console.log(msg)
-        if(res.messages.length > 0)
-        {
-          let messageLength = res.messages.length
-          setMessageOwnerId(res.messages[messageLength-1].ownerId)
-          setMessageReceiverId(res.messages[messageLength-1].receiverId)
-
-        }
-        const userId = await getCookies("userId");
-        setCurrentOwner(userId ?? null)
-        
+        setMsg(messages)  
       }
       fetchMessages()
-    },[chatRoomId])
+    },[roomId])
     
+  useEffect(() => {
+    (async () => {
+      const userId = await getCookies("userId");
+      setCurrentOwner(userId)
+      
+      // this updates the readStatus in every message after the user enter the room.  
+      const res = await updateRequestWithAuth(`message/${roomId}`, {roomId});
+    })();
+  },[])
     
     useEffect(() => {
       if(!socketRef.current || !currentOwner) return;
       
       const socket = socketRef.current;
-      const handleNewMessages = (newMsg: handleChatProps) => {
-        if(newMsg.ownerId !== currentOwner){
+      const handleNewMessages = (newMsg: NormalizedChatProp) => {
+        if(newMsg.senderId !== currentOwner){
           setMsg((prev) => [...prev,newMsg])
-
         }
       }
       
@@ -57,14 +65,23 @@ const ChatDisplayComponent = () => {
     
     return (
       <div className='w-full h-full flexClass flex-col gap-y-2 overflow-y-auto p-2' style={{scrollbarWidth: "none"}}>
-        {msg.map((item) => {
-        const isOwner = item.ownerId === currentOwner
-        console.log(item.message)
-          return(
-            <p key={item.id} className={`w-full h-max flex items-center rounded-md p-2  ${isOwner ? "justify-end text-green-400" : "justify-start text-blue-400"}`}><span className={`w-max rounded-md p-2 text-white ${isOwner? "bg-blue-400" : "bg-gray-400"}`}>{item.message}</span></p>
+        {msg && msg.length > 0?
+        (
 
-            )
-        })}
+          msg.map((item) => {
+            const isOwner = item.senderId === currentOwner 
+            devLogger(isOwner)
+            return(
+              <p key={item.id} className={`w-full h-max flex items-center rounded-md p-2  ${isOwner ? "justify-end text-green-400" : "justify-start text-blue-400"}`}><span className={`w-max rounded-md p-2 text-white ${isOwner? "bg-blue-400" : "bg-gray-400"}`}>{item.message}</span></p>
+              
+              )
+          })
+        )
+        :
+        (
+          <p>No Messages Yet.</p>
+        )
+      }
       </div>
 
 )
