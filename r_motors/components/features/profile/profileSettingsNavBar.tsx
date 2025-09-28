@@ -1,15 +1,14 @@
 "use client"
 import InputBox from '@/components/(common)/inputBox'
 import { useStateContext } from '@/components/context/useStateContext'
-import React, { useState } from 'react'
+import React from 'react'
 import Button from '@/components/(common)/button';
 import { useEffect } from 'react';
 import { confirmAction, serverAlert } from '../../../utils/sweetAleart';
-import { deleteUserProfileFunction, editUserDetailsFunction } from '../../../app/(pages)/profile/page';
 import { clearAllCookies, deleteCookies } from '../../../utils/getCookies';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
-
+import { deleteUserProfileFunction, editUserDetailsFunction } from '@/utils/profileExportFunctions';
 
 
 type profileArrayProps = {

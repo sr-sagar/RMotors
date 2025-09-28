@@ -8,9 +8,6 @@ import DeliveredPage from '../../../components/features/orders/(pages)/delivered
 import PendingPage from '../../../components/features/orders/(pages)/pendingPage';
 import DispatchedPage from '../../../components/features/orders/(pages)/dispatchedPage';
 import CanceledPage from '../../../components/features/orders/(pages)/canceledPage';
-import { postRequestWithAuth } from '../../../utils/postRequestWithAuth';
-import { getCookies } from '../../../utils/getCookies';
-import { serverAlert } from '../../../utils/sweetAleart';
 
 
 
@@ -37,37 +34,7 @@ export type OrderProps = {
 
 
 
-export const createOrderFunction = async(productId: string) => {
-  const userEmail = await getCookies("userEmail");
-  if(userEmail && userEmail !== undefined)
-  {
-    const res = await postRequestWithAuth("order", {userEmail,productId})
-    if(res.success)
-    {
-      await serverAlert(
-        "Success",
-        "order placed successfully.",
-        true,
-      )
-    }
-    else{
-      await serverAlert(
-        "Failed",
-        "unable to place order.",
-        true,
-      )
-      
-    }
 
-  }else{
-    await serverAlert(
-      "Info!",
-      "Please login to place this order.",
-      true
-    )
-  }
-  
-} 
 
 const Orders = async() => {
   

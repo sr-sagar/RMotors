@@ -6,32 +6,11 @@ import MemberCard from '../../../components/features/profile/memberCard';
 import CartCard from '../../../components/features/profile/cartCard';
 import ProfileSettingsNavBar from '../../../components/features/profile/profileSettingsNavBar';
 import EditProfileButton from '../../../components/features/profile/editProfileButton';
-import { updateRequestWithAuth } from '../../../utils/updateRequestWithAuth';
-import { serverAlert } from '@/utils/sweetAleart';
 import { getCookies } from '../../../utils/getCookies';
 import { getRequestWithAuth } from '../../../utils/getRequestWithAuth';
-import { deleteRequestWithAuth } from '../../../utils/deleteRequestWithAuth';
 
 
-export const editUserDetailsFunction = async(data: {userName?: string,userEmail?: string,userPhoneNumber?:string,userLocation?: string,userBio?: string,userPassword?: string}) => {
-  const userEmail = await getCookies("userEmail")
-  const res = await updateRequestWithAuth("profile",{email: userEmail,data});
-  if(res.success === false)
-  {
-    await serverAlert(
-      "Failed",
-      "unable to fetch user details.",
-      true
-    )
-  }
-}
 
-
-export const deleteUserProfileFunction = async() => {
-  const res = await deleteRequestWithAuth("profile" ,{});
-  const deletedUser = res.res.data;
-  return deletedUser;
-}
 
 const Profile = async() => {
   if(!(await getCookies("token"))){
