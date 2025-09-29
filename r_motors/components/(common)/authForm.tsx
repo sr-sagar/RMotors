@@ -4,7 +4,6 @@ import { useStateContext } from '../context/useStateContext';
 import InputBox from './inputBox';
 import Button from './button';
 import {useState} from 'react';
-import { postRequestForLoginAndSignup } from '@/utils/postRequestForLoginAndSignup';
 import toast from 'react-hot-toast';
 import { AnyError, getErrorMessage } from '../../utils/anySolver';
 
@@ -57,7 +56,6 @@ const AuthForm = () => {
         try{
             
             const url = isLogin? "/api/auth/login" : "/api/auth/signup"
-            // const res = await postRequestForLoginAndSignup(data, url);
             const res = await fetch(url, {
                 method: "POST",
                 headers: {
