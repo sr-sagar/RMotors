@@ -19,7 +19,7 @@ export const useSocket = (roomId: string) => {
     const serverPath = "/";
     useEffect(() => {
         if(socketRef.current) return
-        socketRef.current = io("http://localhost:3001", {transports: ["websocket", "polling"],});
+        socketRef.current = io("https://rmotors.onrender.com", {transports: ["websocket", "polling"],});
 
         socketRef.current.emit("joinRoom", roomId);
 
