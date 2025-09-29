@@ -2,7 +2,7 @@ import { Socket, Server } from "socket.io";
 import express from "express";
 import cors from "cors";
 import { createServer } from "http";
-import { count } from "console";
+
 
 
 type handleChatProps = {
@@ -19,12 +19,13 @@ app.use(express.json())
 const httpServer = createServer(app);
 
 
-
+app.get("/healthz", (_req, res) => res.sendStatus(200));
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "*",
+        origin: ["https://rmotors-theta.vercel.app","http://localhost:3000"],
         methods: ["GET", "POST"],
+        credentials: true,
     }
 })
 
@@ -54,7 +55,7 @@ io.on("connection", (socket: Socket) => {
 
 })
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 httpServer.listen(PORT, () => {
     console.log(`server running  on port ${PORT}`)
 })

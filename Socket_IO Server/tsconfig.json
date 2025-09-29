@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "nodenext",
+      "moduleResolution": "nodenext",  // modern, works with ES modules
+      "esModuleInterop": true,
+      "strict": true,
+      "rootDir": "./",
+      "outDir": "dist",
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "ignoreDeprecations": "6.0"      // silences warnings about deprecated options
+    },
+    "include": ["socket.ts"]
+  }
+  
