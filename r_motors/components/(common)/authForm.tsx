@@ -6,6 +6,7 @@ import Button from './button';
 import {useState} from 'react';
 import { postRequestForLoginAndSignup } from '@/utils/postRequestForLoginAndSignup';
 import toast from 'react-hot-toast';
+import { AnyError, getErrorMessage } from '../../utils/anySolver';
 
 
 type authType  = {
@@ -53,23 +54,38 @@ const AuthForm = () => {
     const setValues = authLoginOrSignup? handleSetLoginValue : handleSetSignupValue;
 
     const handleLoginAndSignup = async(data: object, isLogin: boolean) => {
-        const url = isLogin? "login" : "signup"
-        const res = await postRequestForLoginAndSignup(data, url);
-        if(!res.success)
-        {
-            return toast.error(res.res.message, {
+        try{
+            
+            const url = isLogin? "/api/auth/login" : "/api/auth/signup"
+            // const res = await postRequestForLoginAndSignup(data, url);
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+                credentials: "include",
+            });
+            const result = await res.json()
+            if(!res.ok)
+            {
+                return toast.error(result.message || "Something went wrong", {
+                    duration: 3000,
+                    position: "top-center",
+                })
+                
+            }
+            
+            const message = url === "/api/auth/login"? "login successfull." : "signup successfull."
+            toast.success(message, {
                 duration: 3000,
                 position: "top-center",
             })
-            
+            location.replace("/")
+        }catch(error: AnyError)
+        {
+            toast.error(getErrorMessage(error) || "Something went wrong", {duration: 3000, position: "top-center"})
         }
-        
-        const message = url === "login"? "login successfull." : "signup successfull."
-        toast.success(message, {
-            duration: 3000,
-            position: "top-center",
-        })
-        location.replace("/")
 
         
       }

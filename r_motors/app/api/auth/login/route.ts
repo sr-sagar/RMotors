@@ -10,11 +10,12 @@ export const POST = async(req: Request) => {
 
         const result = await loginController(email,password);
 
+        const isProd = process.env.NODE_ENV === "production"
 
         const res = NextResponse.json(result,{status: 200});
         res.cookies.set("token", result.token ?? "",{
                 httpOnly: true,
-                secure: false,
+                secure: isProd,
                 sameSite: 'lax',
                 path: "/",
                 maxAge: 7 * 60 * 60,
@@ -23,35 +24,35 @@ export const POST = async(req: Request) => {
         );
         res.cookies.set("userEmail", email ?? "", {
            httpOnly: true,
-           secure: true,
+           secure: isProd,
            sameSite: "lax",
            path: "/",
            maxAge: 7 * 60 * 60, 
         })
         res.cookies.set("userId", result.userId ?? "", {
             httpOnly: true,
-            secure: true,
+            secure: isProd,
             sameSite: "lax",
             path: "/",
             maxAge: 7 * 60 * 60,
         })
         res.cookies.set("userRole", result.userRole ?? "", {
             httpOnly: true,
-            secure: true,
+            secure: isProd,
             sameSite: "lax",
             path: "/",
             maxAge: 7 * 60 * 60,
         })
         res.cookies.set("userName", result.userName ?? "",{
             httpOnly: true,
-            secure: true,
+            secure: isProd,
             sameSite: "lax",
             path: "/",
             maxAge: 7 * 60 * 60,
         })
         res.cookies.set("userPhoneNumber", result.userPhoneNumber ?? "",{
             httpOnly: true,
-            secure: true,
+            secure: isProd,
             sameSite: "lax",
             path: "/",
             maxAge: 7 * 60 * 60,
