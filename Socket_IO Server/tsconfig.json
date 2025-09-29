@@ -9,8 +9,10 @@
       "outDir": "dist",
       "forceConsistentCasingInFileNames": true,
       "skipLibCheck": true,
-      "ignoreDeprecations": "6.0"      // silences warnings about deprecated options
     },
     "include": ["socket.ts"]
   }
+  
+
+  
   
