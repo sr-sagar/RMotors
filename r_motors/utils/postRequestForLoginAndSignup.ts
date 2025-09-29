@@ -2,11 +2,7 @@
 import { devLogger } from './devLogger';
 import { getBackendUrl } from './urlSetterForLoginAndSignupHelper';
 export const postRequestForLoginAndSignup = async(data: object,url: string) => {
-  const allowedLinks = [
-    "http://localhost:3000",
-    "rmotors-theta.vercel.app"
-  ]
-
+  
   const req = await fetch(`${getBackendUrl()}/api/auth/loginAndSignupWrapper`, {
     method: "POST",
     headers: {
