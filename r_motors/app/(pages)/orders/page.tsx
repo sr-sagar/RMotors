@@ -54,10 +54,10 @@ const Orders = async() => {
 
 
 
-  const completedStatusData = [...getOrders]?.filter((order: OrderProps) => order.orderStatus === "Delivered")
-  const pendingStatusData = [...getOrders]?.filter((order: OrderProps) => order.orderStatus === "Pending")
-  const canceledStatusData = [...getOrders]?.filter((order: OrderProps) => order.orderStatus === "Canceled")
-  const dispatchedStatusData = [...getOrders]?.filter((order: OrderProps) => order.orderStatus === "Dispatched")
+  const completedStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Delivered")
+  const pendingStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Pending")
+  const canceledStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Canceled")
+  const dispatchedStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Dispatched")
 
   
   const navbarNameArray = [

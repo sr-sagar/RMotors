@@ -8,7 +8,7 @@ import { getCookies } from '../../../utils/getCookies';
 const ChatPageExtractedComponent = async({success,message,rooms} : {success: boolean, message: string,rooms: RoomProps[]}) => {
 
   const userId = await getCookies("userId")
-  const unreadCount = [...rooms]?.map((item) => {
+  const unreadCount = rooms?.map((item) => {
     return item.message.filter((msg) => msg.senderId !== userId && msg.readStatus === false).length
   })
   return (
