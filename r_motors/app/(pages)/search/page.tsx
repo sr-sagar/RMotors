@@ -1,9 +1,10 @@
-// export const dynamic = "force-dynamic";
+export const revalidate = 60;
 import SearchPageFilter from '@/components/features/search/searchPageFilter'
 import React from 'react'
 import { prisma } from '../../../lib/prisma';
-import SearchItemsDisplayComponent from '../../../components/features/search/searchItemsDisplayComponent';
 import { ProductContextProvider } from '../../../components/context/productContext';
+import dynamic from 'next/dynamic';
+const SearchItemsDisplayComponent = dynamic(() => import('../../../components/features/search/searchItemsDisplayComponent'))
 
 const Search = async() => {
   const getProducts = await prisma.product.findMany({select: {id: true, productTitle: true, productDescription: true, productPrice: true,productImageURLs: true,productUploaderId: true,productCategory: true,productYear: true, productTotalMiles: true}})

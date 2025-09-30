@@ -8,6 +8,7 @@ export type RoomProps = {
   productId: string,
   product: {
     productTitle: string,
+    productImageURLs: string[],
   },
   customer: {
     userName: string,

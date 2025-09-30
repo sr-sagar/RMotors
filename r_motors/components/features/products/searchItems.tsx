@@ -9,7 +9,7 @@ const SearchItems = ({title,price,id,productOwnerId,imgURL,productCategory,produ
 
         <Link href={`/products/${id.toString()}`} className='w-full h-max'>
           <div className='w-full h-[150px] lg:h-[200px] relative overflow-hidden rounded-md'>
-            <Image src={imgURL} fill sizes='(max-width: 768px) 100vw,33vw' alt={title} priority className='rounded-md object-cover object-[center]'/>
+            <Image src={imgURL} fill sizes='(max-width: 768px) 100vw,33vw' alt={title}  className='rounded-md object-cover object-[center]'/>
           </div>
         </Link>
 

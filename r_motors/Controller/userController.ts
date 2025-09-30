@@ -145,7 +145,7 @@ export const getMessageRoomController = async(userEmail: string) => {
     
     const room = await prisma.room.findMany({
         where: {OR: [{customerId: user.id},{productOwnerId: user.id}]},
-        select: {id: true, productId: true, product: {select: {productTitle: true}},customer: {select: {userName: true}}, message: {select: {message: true, sentAt: true, readStatus: true, senderId: true}}},
+        select: {id: true, productId: true, product: {select: {productTitle: true,productImageURLs: true}},customer: {select: {userName: true}}, message: {select: {message: true, sentAt: true, readStatus: true, senderId: true}}},
     })
 
 

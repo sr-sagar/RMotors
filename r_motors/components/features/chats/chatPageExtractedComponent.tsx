@@ -23,7 +23,7 @@ const ChatPageExtractedComponent = async({success,message,rooms} : {success: boo
 
           rooms.map((item: RoomProps,index) => (
             <Link key={item.id} href={`/chats/${item.id}`} className='w-full h-max last-of-type-mb-4 md:active:bg-gray-100'>
-              <ChatComponent  chatTitle={item.product.productTitle} unreadCount={unreadCount[index]}  messageDetails={item.message} />
+              <ChatComponent  chatTitle={item.product.productTitle} unreadCount={unreadCount[index]}  messageDetails={item.message} productImageURL={item.product.productImageURLs[0]}/>
             </Link>
           ))
         )

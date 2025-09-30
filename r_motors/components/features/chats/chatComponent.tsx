@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
 import Image from 'next/image'
-const ChatComponent = ({chatTitle,unreadCount,messageDetails}: {chatTitle: string, unreadCount: number,  messageDetails: {message: string, sentAt: string} | {message: string, sentAt: string}[]}) => {
+const ChatComponent = ({chatTitle,unreadCount,productImageURL,messageDetails}: {chatTitle: string, unreadCount: number,productImageURL: string,  messageDetails: {message: string, sentAt: string} | {message: string, sentAt: string}[]}) => {
   let lastMessage: string;
   let lastSent: string[];
 
@@ -21,7 +21,7 @@ const ChatComponent = ({chatTitle,unreadCount,messageDetails}: {chatTitle: strin
   return (
     <div className='w-full h-max p-2 flexClass gap-x-4 '>
         <div className='w-[80px] h-full flexClass p-1'>
-          <Image src="/beetImage.jpg" width={50} height={60} alt='red car' className='w-[60px] h-[60px] object-fill rounded-full'/>
+          <Image src={productImageURL ?? "/beetImage.jpg"} width={50} height={60} alt='red car' className='w-[60px] h-[60px] object-fill rounded-full'/>
         </div>
         <div className='w-full h-max flexClass flex-col'>
           <div className='w-full h-max flex justify-between items-center'>
