@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 import SearchPageFilter from '@/components/features/search/searchPageFilter'
 import React from 'react'
 import { prisma } from '../../../lib/prisma';

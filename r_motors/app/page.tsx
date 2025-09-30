@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 import SmallScreenSignUpLogInButtons from "@/components/features/home/smallScreenSignUpLogInButtons";
 import { Heart, Search, Shield } from "lucide-react";
 import { prisma } from '../lib/prisma';
