@@ -1,11 +1,11 @@
-import ChatDisplayComponent from '@/components/features/chats/chatDisplayComponent'
 import ChatInputFeild from '@/components/features/chats/chatInputFeild'
 import React from 'react'
 import { getRequestWithAuth } from '@/utils/getRequestWithAuth';
 import { getCookies } from '../../../../utils/getCookies';
 import ToastComponent from '@/components/(common)/toastComponent';
 import ChatList from '@/components/features/chats/chatList';
-
+import dynamic from 'next/dynamic';
+const ChatDisplayComponent = dynamic(() => import('@/components/features/chats/chatDisplayComponent'),{loading: () => <p>Loading...</p>})
 
 
 type Props = {
@@ -49,7 +49,7 @@ const ChatFunctionComponent = async({params}: Props) => {
             <h3 className='text-sm'>{roomMessages.product.productTitle ?? "no title available"}</h3>
           </div>
           <div className='w-full h-[400px]'>
-            <ChatDisplayComponent roomId={roomId} messages={roomMessages.message}/>
+              <ChatDisplayComponent roomId={roomId} messages={roomMessages.message}/>
           </div>
           <div className='w-full h-[50px] border-1 border-gray-300'>
             <ChatInputFeild receiverId={receiverId} senderId={userId} roomId={roomId}/>

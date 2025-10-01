@@ -3,7 +3,7 @@ import ChatPageExtractedComponent from './chatPageExtractedComponent';
 import { getRequestWithAuth } from '@/utils/getRequestWithAuth';
 
 const ChatList = async() => {
-    const res = await getRequestWithAuth("messageRoom");
+    const res = await getRequestWithAuth("messageRoom",60);
     const rooms = await res.res.data;
     return <ChatPageExtractedComponent success={res.success} message={res.res.message} rooms={rooms}/>
 }
