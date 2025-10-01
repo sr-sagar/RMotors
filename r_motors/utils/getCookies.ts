@@ -8,6 +8,7 @@ export const getCookies = async(name: string) => {
 }
 
 
+
 export const deleteCookies = async(name: string) => {
     const deleteCookie = await cookies()
     const cookie = deleteCookie.delete(name)
