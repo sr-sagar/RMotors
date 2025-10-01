@@ -42,15 +42,15 @@ const Orders = async() => {
   
 
   
-  if(!(await getCookies("token"))){
-    return(
-      <div className='w-full h-max flexClass flex-col'>
-        <Image src={"/profileImg.png"} height={300} width={400}  alt='this is the image that appers when user click on the profile while they are logged out.' className='object-[center_center] object-contain'/>
-        <h3 className='text-md md:text-lg font-bold'>Please Login/Signup to view this page.</h3>
-      </div>
-    );
-  }
-  const res = await getRequestWithAuth("order");
+  // if(!(await getCookies("token"))){
+  //   return(
+  //     <div className='w-full h-max flexClass flex-col'>
+  //       <Image src={"/profileImg.png"} height={300} width={400}  alt='this is the image that appers when user click on the profile while they are logged out.' className='object-[center_center] object-contain'/>
+  //       <h3 className='text-md md:text-lg font-bold'>Please Login/Signup to view this page.</h3>
+  //     </div>
+  //   );
+  // }
+  const res = await getRequestWithAuth("order", 60);
   const getOrders = res?.res?.data;
   
 

@@ -2,7 +2,7 @@
 
 import { getCookies } from "./getCookies";
 
-export const getRequestWithAuth = async(url: string ) => {
+export const getRequestWithAuth = async(url: string,isCache?: number ) => {
     const backend_url = process.env.BACKEND_URL!;
 
     const req = await fetch(`${backend_url!}/api/${url}`, {
@@ -11,6 +11,9 @@ export const getRequestWithAuth = async(url: string ) => {
             "Content-Type": "application/json",
             "Authorization":  `Bearer ${await getCookies("token")}`
         },
+        next: {
+          revalidate: isCache ?? false
+        }
         
   });
 
