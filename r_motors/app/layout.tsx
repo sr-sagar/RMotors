@@ -47,7 +47,7 @@ export default  function RootLayout({
                 </header>
                 <div>
                   {children}
-                  <Toaster position="top-right" gutter={8} toastOptions={{duration: 3000, position: "top-center"}} reverseOrder={false} />
+                  <Toaster position="top-right" gutter={8} toastOptions={{duration: 1000, position: "top-center"}} reverseOrder={false} />
                 </div>
               </StateContextProvider>
             </ChoiceBoxFilterProvider>

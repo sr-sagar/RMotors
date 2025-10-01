@@ -27,6 +27,7 @@ const EditProfileButton = () => {
         if(Object.keys(newInputValues).length === 0)
         {
             await serverAlert("No Change", "No account details were changed.", true)
+            setIsProfileEditing(false)
             return;
         }
 
@@ -71,6 +72,7 @@ const EditProfileButton = () => {
                 "Account details not changed.",
                 true
                 )
+                setIsProfileEditing(false)
             }
     }
 

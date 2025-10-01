@@ -68,7 +68,7 @@ const AuthForm = () => {
             if(!res.ok)
             {
                 return toast.error(result.message || "Something went wrong", {
-                    duration: 3000,
+                    duration: 1000,
                     position: "top-center",
                 })
                 
@@ -77,13 +77,13 @@ const AuthForm = () => {
             
             const message = url === "/api/auth/login"? "login successfull." : "signup successfull."
             toast.success(message, {
-                duration: 3000,
+                duration: 1000,
                 position: "top-center",
             })
             location.href = "/"
         }catch(error: AnyError)
         {
-            toast.error(getErrorMessage(error) || "Something went wrong", {duration: 3000, position: "top-center"})
+            toast.error(getErrorMessage(error) || "Something went wrong", {duration: 1000, position: "top-center"})
         }
 
         

@@ -5,7 +5,7 @@ import ContactOwnerButton from '../search/contactOwnerButton';
 
 const SearchItems = ({title,price,id,productOwnerId,imgURL,productCategory,productYear,productTotalMiles}: {title: string, price: string,id: string,productOwnerId: string,imgURL: string,productCategory: string,productYear: string,productTotalMiles: string}) => {
   return (
-    <div className='w-full max-w-[400px] h-max flexClass flex-col rounded-md shadow-xs md:shadow-none hover:shadow-xl transition-all duration-300 ease-in-out p-2 gap-y-2 '>
+    <div className='w-full max-w-[400px] h-max flexClass flex-col rounded-md shadow-xs md:shadow-none hover:shadow-xl transition-all duration-300 ease-in-out  p-2 gap-y-2 '>
 
         <Link href={`/products/${id.toString()}`} className='w-full h-max'>
           <div className='w-full h-[150px] lg:h-[200px] relative overflow-hidden rounded-md'>

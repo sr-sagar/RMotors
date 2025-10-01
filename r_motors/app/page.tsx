@@ -18,7 +18,7 @@ export default async function Home() {
         <p className="text-center">Browse our carefully selected second-hand vehicles. Direct sales, fair <br />prices, and honest dealing - inspect before you buy.</p>
         <div className="w-full h-max flexClass flex-col md:flex-row md:gap-x-4 py-2 gap-y-4">
           <div className="w-max h-max flexClass">
-            <ExplorMoreButton text="Browse Cars" link="/search"/>
+            <ExplorMoreButton text="Browse Cars" link="/search" className="px-4"/>
           </div>
         </div>
         <div className="w-full flexClass  mt-2  md:hidden ">
@@ -84,7 +84,7 @@ export default async function Home() {
         <h3>Featured Cars</h3>
         <p>Discover our handpicked selection of premium vehicles</p>
         <div className="w-full h-max flexClass">
-          <div className="w-max md:w-full h-max  gap-x-4  flex justify-around items-center overflow-x-auto" style={{scrollbarWidth: "none"}} >
+          <div className="w-max md:w-full h-max  gap-x-6  flex justify-around items-center overflow-x-auto" style={{scrollbarWidth: "none"}} >
             {getFeaturedCars? getFeaturedCars.map((item) => (
               <SearchItems key={item.id} title={item.productTitle} price={item.productPrice.toString()} id={item.id} productOwnerId={item.productUploaderId} imgURL={item.productImageURLs[item.productImageURLs.length -1]} productCategory={item.productCategory} productYear={item.productYear} productTotalMiles={item.productTotalMiles}/>
             ))
