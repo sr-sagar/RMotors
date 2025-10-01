@@ -21,7 +21,7 @@ type messageProps = {
 const ChatDisplayComponent = ({roomId,messages}: {roomId: string,messages: NormalizedChatProp[]}) => {
   const {chatRoomId,msg,setMsg} = useStateContext()
   const socketRef = useSocket(roomId)
-  const [currentOwner, setCurrentOwner] = useState<string | null>(null);
+  const [currentOwner, setCurrentOwner] = useState<string | undefined>(undefined);
   
 
 

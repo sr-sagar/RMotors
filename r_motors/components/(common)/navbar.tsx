@@ -86,7 +86,7 @@ const Navbar = () => {
             
             }
           </ul>
-          {token === null &&
+          {token === undefined &&
 
             <ul className='min-w-[20%] h-full flex justify-around items-center   p-2 gap-x-6'>
               <Link href={"/auth"}><li className='navbarItems '>SignIn</li></Link>
