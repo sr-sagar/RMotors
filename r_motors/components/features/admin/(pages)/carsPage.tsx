@@ -28,7 +28,7 @@ export const deleteCarFunction = async(productId: string) => {
   }
 }
 
-export const editProductFunction = async(productId: string,data: {productTitle?: string,productDescription?: string,productPrice?: number,productCost?: number,productCategory?: string,productAvailability?: string,productQuantity?: number}) => {
+export const editProductFunction = async(productId: string,data: {productTitle?: string,productDescription?: string,productPrice?: number,productCost?: number,productCategory?: string,productAvailability?: string,productQuantity?: number,productTransmission?: string,productYear?: string,productLocation?: string,productTotalMiles?: string,productPriceBeforeDiscount?: number}) => {
   const userEmail = await getCookies("userEmail");
   const res = await updateRequestWithAuth("admin/products", {userEmail,productId,data});
   if(res.success)
@@ -51,7 +51,7 @@ export const editProductFunction = async(productId: string,data: {productTitle?:
 
 
 const CarsPage = async() => {
-  const res = await getRequestWithAuth("admin/products");
+  const res = await getRequestWithAuth("admin/products",60);
   const getCars = res.res.data;
 
 

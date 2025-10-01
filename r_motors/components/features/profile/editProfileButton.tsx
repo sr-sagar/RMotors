@@ -47,7 +47,7 @@ const EditProfileButton = () => {
                 localStorage.removeItem("isLoggedIn");
 
                 await clearAllCookies()
-                mutate("/api/session", {token: null, userRole: null}, false)
+                mutate("/api/session", {token: undefined, userRole: undefined}, false)
                 
                 window.location.href = "/auth";
                 await serverAlert(

@@ -6,10 +6,22 @@ import React from 'react'
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { createOrderFunction } from '@/utils/orderExportFunctions'
+import Swal from 'sweetalert2';
+import { confirmAction } from '../../../utils/sweetAleart';
 
 const ButtonSection = ({id,uploaderId}: {id: string, uploaderId: string}) => {
 
     const router = useRouter()
+
+    const handleContactUs = async() => {
+        Swal.fire({
+
+            title: "Contact Us",
+            text: "Contact us at +91 12345678910",
+            icon: "info",
+            cancelButtonText: "Close",
+        })
+    }
     const handleCreateMessageRoom = async() => {
         const userEmail = await getCookies("userEmail");
         if(userEmail && userEmail !== undefined)
@@ -30,7 +42,7 @@ const ButtonSection = ({id,uploaderId}: {id: string, uploaderId: string}) => {
     }
   return (
     <div className='w-full h-max flexClass flex-col gap-y-4'>
-        <Button btnText='Contact Dealer' btnWidth={70} />
+        <Button btnText='Contact Dealer' btnWidth={70} onClickFunc={handleContactUs}/>
         <Button btnText='Start Chat' btnWidth={70} onClickFunc={handleCreateMessageRoom}/>
         <Button btnText='Buy' btnWidth={70} onClickFunc={() => {createOrderFunction(id)}}/>
     </div>

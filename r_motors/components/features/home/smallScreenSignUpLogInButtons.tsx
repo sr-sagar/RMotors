@@ -21,9 +21,7 @@ const SmallScreenSignUpLogInButtons = ({btnText1,btnText2}: {btnText1?: string,b
     useEffect(() => {
       if(error) toast.error("something went wrong.")
     },[error])
-    const token = data?.token;
-
-
+    const token = data?.token ?? undefined;
   return (
     <>
     {isMobile && token === undefined && (

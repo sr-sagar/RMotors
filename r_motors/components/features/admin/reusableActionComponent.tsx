@@ -10,6 +10,7 @@ import {useState} from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from "sweetalert2-react-content";
 
+
 const MySwal = withReactContent(Swal)
 // Note to self: refactor this into cleaner code/smaller blocks of code rather than this confusing reusable bock of code.
 const ReusableActionComponent = <T extends {id: string}>({data,isEdit = true, callingComponentName,isOrder = false}: {data: T,isEdit?: boolean, callingComponentName: string,isOrder?: boolean}) => {
@@ -22,6 +23,11 @@ const ReusableActionComponent = <T extends {id: string}>({data,isEdit = true, ca
       productCategory: "",
       productAvailability: "",
       productQuantity: "",
+      productLocation: "",
+      productYear: "",
+      productTotalMiles: "",
+      productPriceBeforeDiscount: "",
+      productTransmission: "",
     })
     const [newDeliveryDate,setNewDeliveryDate] = useState("")
 
@@ -109,6 +115,27 @@ const ReusableActionComponent = <T extends {id: string}>({data,isEdit = true, ca
                 defaultValue={newValues.productQuantity} 
                 onChange={(e) => (formValues.productQuantity = e.target.value)}
               />
+              <input 
+              type="number"  
+                className='w-max h-max rounded-md' 
+                placeholder='product price before discount here...' 
+                defaultValue={newValues.productPriceBeforeDiscount} 
+                onChange={(e) => (formValues.productPriceBeforeDiscount = e.target.value)}
+              />
+              <input 
+              type="text"  
+                className='w-max h-max rounded-md' 
+                placeholder='product location here...' 
+                defaultValue={newValues.productLocation} 
+                onChange={(e) => (formValues.productLocation = e.target.value)}
+              />
+              <input 
+              type="number"  
+                className='w-max h-max rounded-md' 
+                placeholder='product total miles here...' 
+                defaultValue={newValues.productTotalMiles} 
+                onChange={(e) => (formValues.productTotalMiles = e.target.value)}
+              />
               <select 
                 className='w-max h-max rounded-md'  
                 defaultValue={newValues.productAvailability} 
@@ -118,6 +145,16 @@ const ReusableActionComponent = <T extends {id: string}>({data,isEdit = true, ca
                 <option value="Available">Available</option>
                 <option value="Sold">Sold</option>
                 <option value="Pending">Pending</option>
+              </select>
+
+              <select 
+                className='w-max h-max rounded-md'  
+                defaultValue={newValues.productTransmission} 
+                onChange={(e) => (formValues.productTransmission = e.target.value)}     
+              >
+                <option value="Automatic">Automatic</option>
+                <option value="Manual">Manual</option>
+                <option value="Hybrid">Hybrid</option>
               </select>
 
             </div>
@@ -160,7 +197,7 @@ const ReusableActionComponent = <T extends {id: string}>({data,isEdit = true, ca
         }
       }
     
-    const handleProductUpdate = async(newDetails?: {productTitle?: string,productDescription?: string,productPrice?: number,productCost?: number,productCategory?: string,productAvailability?: string,productQuantity?: number},orderDetails?: {orderStatus?: string,deliveryDate?: string}) => {
+    const handleProductUpdate = async(newDetails?: {productTitle?: string,productDescription?: string,productPrice?: number,productCost?: number,productCategory?: string,productAvailability?: string,productQuantity?: number,productTransmission?: string,productYear?: string,productLocation?: string,productTotalMiles?: string,productPriceBeforeDiscount?: number},orderDetails?: {orderStatus?: string,deliveryDate?: string}) => {
 
       const confirmed = await confirmAction(
         "Are You Sure?",

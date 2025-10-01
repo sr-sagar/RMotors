@@ -32,8 +32,8 @@ const Navbar = () => {
     if(error) toast.error("something went wrong while getting your details.")
 
   },[error])
-  const token = data?.token;
-  const userRole = data?.userRole;
+  const token = data?.token ?? undefined;
+  const userRole = data?.userRole ?? undefined;
 
   
 

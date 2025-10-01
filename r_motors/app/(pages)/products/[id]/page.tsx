@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react'
 import { Gauge, Calendar, Fuel, Settings } from 'lucide-react';
 import { prisma } from '../../../../lib/prisma';

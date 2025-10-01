@@ -76,6 +76,11 @@ export const updateAdminProductsMiddleware = async(req: Request) => {
             productAvailability: joi.string().valid("Available","Sold","Pending").optional(),
             productCategory: joi.string().optional(),
             productQuantity: joi.number().min(1).optional(),
+            productTransmission: joi.string().valid("Automatic","Manual","Hybrid").optional(),
+            productYear: joi.string().optional(),
+            productLocation: joi.string().optional(),
+            productTotalMiles: joi.string().optional(),
+            productPriceBeforeDiscount: joi.number().optional(),
         }).min(1)
     })
     const { error } = await schema.validate(body, {abortEarly: false});

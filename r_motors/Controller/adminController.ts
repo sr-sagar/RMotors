@@ -4,7 +4,7 @@ import { Decimal } from '@prisma/client/runtime/library';
 import cloudinary from '../lib/cloudinary';
 import { resolve } from 'path';
 import { addAdminProductsMiddleware } from '../Middleware/adminMiddleware';
-import { ProductAvailability, ProductTransmission } from '@prisma/client';
+import { ProductAvailability, ProductTransmission, ProductTransmission } from '@prisma/client';
 import { devLogger } from '../utils/devLogger';
 
 type ApiResponseProps<T,> = {
@@ -210,6 +210,11 @@ type UpdateProduct = {
     productCost?: Decimal,
     productAvailability?: ProductAvailability,
     productCategory?: string,
+    productTransmission?: ProductTransmission,
+    productYear?: string,
+    productLocation?: string,
+    productTotalMiles?: string,
+    productPriceBeforeDiscount?: Decimal,
 }
 
 type UpdateAdminProductsControllerProps = {

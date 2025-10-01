@@ -133,7 +133,7 @@ const ProfileSettingsNavBar = ({initialValues}: {initialValues: {userName: strin
         {            
             await clearAllCookies()
             localStorage.removeItem("token");
-            mutate("/api/session", {token: null, userRole: null}, false)
+            mutate("/api/session", {token: undefined, userRole: undefined}, false)
             
             await serverAlert(
                 "success",
