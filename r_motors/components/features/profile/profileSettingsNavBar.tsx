@@ -9,6 +9,7 @@ import { clearAllCookies, deleteCookies } from '../../../utils/getCookies';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
 import { deleteUserProfileFunction, editUserDetailsFunction } from '@/utils/profileExportFunctions';
+import { mutate } from 'swr';
 
 
 type profileArrayProps = {
@@ -55,6 +56,7 @@ const ProfileSettingsNavBar = ({initialValues}: {initialValues: {userName: strin
             await deleteUserProfileFunction();
             await clearAllCookies()
             localStorage.removeItem("token");
+            localStorage.removeItem("isLoggedIn");
             await serverAlert(
                 "success",
                 "account deleted successfully.",
@@ -131,12 +133,14 @@ const ProfileSettingsNavBar = ({initialValues}: {initialValues: {userName: strin
         {            
             await clearAllCookies()
             localStorage.removeItem("token");
+            mutate("/api/session", {token: null, userRole: null}, false)
+            
             await serverAlert(
                 "success",
                 "logged-out successfully.",
                 true,
             )
-            location.replace("/")
+            location.href = "/"
 
             
         }

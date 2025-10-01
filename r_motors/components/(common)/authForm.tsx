@@ -73,13 +73,14 @@ const AuthForm = () => {
                 })
                 
             }
+            localStorage.setItem("isLoggedIn", "true")
             
             const message = url === "/api/auth/login"? "login successfull." : "signup successfull."
             toast.success(message, {
                 duration: 3000,
                 position: "top-center",
             })
-            location.replace("/")
+            location.href = "/"
         }catch(error: AnyError)
         {
             toast.error(getErrorMessage(error) || "Something went wrong", {duration: 3000, position: "top-center"})

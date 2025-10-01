@@ -7,6 +7,7 @@ import { getCookies } from '@/utils/getCookies';
 import { useRouter } from 'next/navigation';
 import { clearAllCookies } from '../../../utils/getCookies';
 import { editUserDetailsFunction } from '@/utils/profileExportFunctions';
+import { mutate } from 'swr';
 const EditProfileButton = () => {
     const {isProfileEditing,setIsProfileEditing,inputvalue,setInputValue} = useStateContext();
     const router = useRouter()
@@ -42,7 +43,11 @@ const EditProfileButton = () => {
             {
 
                 localStorage.removeItem("token");
+                localStorage.removeItem("isLoggedIn");
+
                 await clearAllCookies()
+                mutate("/api/session", {token: null, userRole: null}, false)
+                
                 window.location.href = "/auth";
                 await serverAlert(
                     "You were loggedout",

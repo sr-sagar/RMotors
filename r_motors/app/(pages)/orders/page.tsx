@@ -1,4 +1,5 @@
-import React from 'react'
+export const revalidate = 60;
+import React, { Suspense } from 'react'
 import InternalNavbarComponent from '../../../components/(common)/internalNavbarComponent';
 import { getRequestWithAuth } from '../../../utils/getRequestWithAuth';
 import ToastComponent from '@/components/(common)/toastComponent';
@@ -40,6 +41,7 @@ export type OrderProps = {
 const Orders = async() => {
   
 
+  
   if(!(await getCookies("token"))){
     return(
       <div className='w-full h-max flexClass flex-col'>
@@ -54,11 +56,19 @@ const Orders = async() => {
 
 
 
-  const completedStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Delivered")
-  const pendingStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Pending")
-  const canceledStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Canceled")
-  const dispatchedStatusData = getOrders?.filter((order: OrderProps) => order.orderStatus === "Dispatched")
+  const completedStatusData: OrderProps[] = [] 
+  const pendingStatusData: OrderProps[] = [] 
+  const canceledStatusData: OrderProps[] = [] 
+  const dispatchedStatusData: OrderProps[] = [] 
 
+  getOrders?.forEach((order: OrderProps) => {
+    switch(order.orderStatus){
+      case "Delivered" : completedStatusData.push(order); break;
+      case "Pending" : pendingStatusData.push(order); break;
+      case "Canceled" : canceledStatusData.push(order); break;
+      case "Dispatched" : dispatchedStatusData.push(order); break;
+    }
+  });
   
   const navbarNameArray = [
     "all",
@@ -85,7 +95,9 @@ const Orders = async() => {
         <InternalNavbarComponent stateNameArray={navbarNameArray}/>
       </div>
       <div className='w-full min-h-[450px] max-h-[500px] flex justify-start items-center flex-col max-w-[1020px]  overflow-y-auto p-2 gap-y-4' style={{scrollbarWidth: "none"}}>
+        <Suspense fallback={<p>Loading....</p>}>
           <InternalNavbarForOrderPage currentComponent={internalNavbarComponents} />
+        </Suspense>
       </div>
     </section>
   )

@@ -4,32 +4,38 @@ import Logo from './logo'
 import { useScreenSize } from '../context/ScreenSizeContext';
 import Link from 'next/link';
 import Button from './button';
-import { getCookies } from '../../utils/getCookies';
+import toast from 'react-hot-toast';
+import useSWR from "swr"
+const fetcher = async(url: string) => {
+  const res = await fetch(url);
+  if(!res.ok) toast.error("Failed to fetch token.");
+  return res.json();
+
+}
+
 const Navbar = () => {
   const [showNavBar,setShowNavBar] = useState(false);
-  const [token,setToken] = useState<string | undefined>(undefined);
-  const [userRole,setUserRole] = useState<string | undefined>(undefined);
   const [activeTab,setActiveTab] = useState<"home" | "search" | "chats" | "orders" | "profile" | "admin" | undefined>()
   const { isMobile } = useScreenSize();
 
-  const getCookieValues = async() => {
-    const token = await getCookies("token");
-    setToken(token);
-    const userRole = await getCookies('userRole');
-    setUserRole(userRole)
-
-  }
+  
 
   useEffect(() => {
     const currentPage = location.href.split("/")[3]
     setActiveTab((currentPage as "home" | "search" | "chats" | "orders" | "profile" | "admin"))
-    
   },[])
+  
 
+  const {error, data, } = useSWR("/api/session", fetcher, {revalidateOnFocus: true, dedupingInterval: 10000});
+  
   useEffect(() => {
-    getCookieValues()
+    if(error) toast.error("something went wrong while getting your details.")
 
-  },[token,userRole])
+  },[error])
+  const token = data?.token;
+  const userRole = data?.userRole;
+
+  
 
   return (
     <div className='flexClass w-full h-[20%]  p-2 mb-2 p-2 shadow-md'>
@@ -50,7 +56,7 @@ const Navbar = () => {
                 <Link className='w-full' href={'/chats'}><li className={`navbarItems ${activeTab === "chats"? "bg-[#0054FF] rounded-md p-1 text-white" : ""}`} onClick={() => {setActiveTab("chats")}}>Chats</li></Link>
                 <Link className='w-full' href={'/orders'}><li className={`navbarItems ${activeTab === "orders"? "bg-[#0054FF] rounded-md p-1 text-white" : ""}`} onClick={() => {setActiveTab("orders")}}>Orders</li></Link>
                 <Link className='w-full' href={'/profile'}><li className={`navbarItems ${activeTab === "profile"? "bg-[#0054FF] rounded-md p-1 text-white" : ""}`} onClick={() => {setActiveTab("profile")}}>Profile</li></Link>
-                {userRole&& userRole === "admin" && (
+                {userRole && userRole === "admin" && (
               
                   <Link href={"/admin"}><li className={`navbarItems ${activeTab === "admin"? "bg-[#0054FF] rounded-md p-1 text-white" : ""}`} onClick={() => {setActiveTab("admin")}}>Admin</li></Link>
                 )
@@ -73,14 +79,14 @@ const Navbar = () => {
             <Link href={"/chats"}><li className={`navbarItems ${activeTab === "chats"? "bg-[#0054FF] rounded-md p-2 text-white" : ""}`} onClick={() => {setActiveTab("chats")}}>Chats</li></Link>
             <Link href={"/orders"}><li className={`navbarItems ${activeTab === "orders"? "bg-[#0054FF] rounded-md p-2 text-white" : ""}`} onClick={() => {setActiveTab("orders")}}>Orders</li></Link>
             <Link href={"/profile"}><li className={`navbarItems ${activeTab === "profile"? "bg-[#0054FF] rounded-md p-2 text-white" : ""}`} onClick={() => {setActiveTab("profile")}}>Profile</li></Link>
-            {userRole&& userRole === "admin" && (
+            {userRole && userRole === "admin" && (
               
               <Link href={"/admin"}><li className={`navbarItems ${activeTab === "admin"? "bg-[#0054FF] rounded-md p-2 text-white" : ""}`} onClick={() => {setActiveTab("admin")}}>Admin</li></Link>
             )
             
             }
           </ul>
-          {token === undefined &&
+          {token === null &&
 
             <ul className='min-w-[20%] h-full flex justify-around items-center   p-2 gap-x-6'>
               <Link href={"/auth"}><li className='navbarItems '>SignIn</li></Link>

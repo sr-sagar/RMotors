@@ -6,6 +6,7 @@ import { ScreenSizeContextProvider } from "../components/context/ScreenSizeConte
 import { ChoiceBoxFilterProvider } from '../components/context/choiceBoxFilters';
 import { StateContextProvider } from "@/components/context/useStateContext";
 import { Toaster } from "react-hot-toast";
+import { getCookies } from "@/utils/getCookies";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +23,14 @@ export const metadata: Metadata = {
   description: "Place to buy and sell your car",
 };
 
-export default function RootLayout({
+export default  function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+
+
   return (
     <html lang="en">
       <body
