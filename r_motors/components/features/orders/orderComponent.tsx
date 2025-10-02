@@ -2,8 +2,31 @@ import React from 'react'
 import OrderItemComponent from './orderItemComponent';
 import { OrderItemProps } from '../../../app/(pages)/orders/page';
 import ViewDetailsButton from './viewDetailsButton';
-import { itemAxisPredicate } from 'recharts/types/state/selectors/axisSelectors';
+import CancelOrderBtn from './cancelOrderBtn';
+import { deleteRequestWithAuth } from '../../../utils/deleteRequestWithAuth';
+import { serverAlert } from '../../../utils/sweetAleart';
 
+export const cancelOrderFunction = async(orderId: string) => {
+  const res = await deleteRequestWithAuth("order", {orderId})
+  if(res.success)
+  {
+    await serverAlert(
+      "Success",
+      "Order Delete Successfully.",
+      true,
+    )
+  }
+  else{
+    await serverAlert(
+      "Failed",
+      `${res.res.message ?? "unable to delete order."}`,
+      true,
+    )
+    
+  }
+  
+
+}
 
 const OrderComponent = ({orderedAt,expectedDeliveryDate,id,order,productYear,index,productPrice,productId}: {orderedAt: string,expectedDeliveryDate: string,id: string, order: OrderItemProps[], productYear: string,index: number,productPrice: number,productId: string}) => {
   return (
@@ -39,6 +62,7 @@ const OrderComponent = ({orderedAt,expectedDeliveryDate,id,order,productYear,ind
         </div>
         <div className='w-full h-max flex justify-end items-center gap-x-2 text-xs md:text-md'>
           <ViewDetailsButton id={productId}/>
+          <CancelOrderBtn id={id}/>
         </div>
       </div>
     </div>

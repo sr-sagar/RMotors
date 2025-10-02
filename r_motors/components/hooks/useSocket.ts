@@ -1,6 +1,7 @@
 import { useEffect,useRef } from 'react';
 import {Socket, io} from "socket.io-client";
 import { NormalizedChatProp } from '../../utils/messageFetcher';
+import { showNotification } from '@/utils/showNotification';
 
 type ServerToClient = {
     message: (msg: NormalizedChatProp) => void
@@ -14,7 +15,7 @@ type ClientToServer = {
 
 
 
-export const useSocket = (roomId: string) => {
+export const useSocket = (roomId: string,userId: string) => {
     const socketRef = useRef<Socket<ServerToClient,ClientToServer> | null>(null)
     const serverPath = "/";
     useEffect(() => {
@@ -23,7 +24,13 @@ export const useSocket = (roomId: string) => {
 
         socketRef.current.emit("joinRoom", roomId);
 
+        socketRef.current.on("message", (newMsg : NormalizedChatProp) => {
+            if(newMsg.senderId !== userId)
+            {
+                showNotification("New Chat", newMsg.message)
 
+            }
+        })
 
         
 

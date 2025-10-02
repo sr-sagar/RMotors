@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
 import { useEffect } from 'react';
+import { useStateContext } from '../../context/useStateContext';
 
 const fetcher = async(url: string) => {
   const res = await fetch(url);
@@ -16,7 +17,7 @@ const fetcher = async(url: string) => {
 const SmallScreenSignUpLogInButtons = ({btnText1,btnText2}: {btnText1?: string,btnText2?: string}) => {
     const {isMobile} = useScreenSize()
     const router = useRouter()
-
+    const {setAuthLoginOrSignup} = useStateContext()
     const {error, data} = useSWR("/api/session", fetcher, {revalidateOnFocus: true, dedupingInterval: 10000});
     useEffect(() => {
       if(error) toast.error("something went wrong.")
@@ -28,8 +29,8 @@ const SmallScreenSignUpLogInButtons = ({btnText1,btnText2}: {btnText1?: string,b
         
         <div className='w-full h-full flex justify-center items-center py-2 gap-x-2 '>
         
-                <Button btnText={`${btnText1 ?? "SignUp"}`} btnWidth={40} onClickFunc={() => {router.push("/auth")}}/>
-                <Button btnText={`${btnText2 ?? "LogIn"}`} btnWidth={40} onClickFunc={() => {router.push("/auth")}}/>
+                <Button btnText={`${btnText1 ?? "SignUp"}`} btnWidth={40} onClickFunc={() => {router.push("/auth"), setAuthLoginOrSignup(false)}}/>
+                <Button btnText={`${btnText2 ?? "LogIn"}`} btnWidth={40} onClickFunc={() => {router.push("/auth"), setAuthLoginOrSignup(true)}}/>
         </div>
         )
     }

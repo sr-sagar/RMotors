@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { createOrderFunction } from '@/utils/orderExportFunctions'
 import Swal from 'sweetalert2';
-import { confirmAction } from '../../../utils/sweetAleart';
+import { confirmAction, serverAlert } from '../../../utils/sweetAleart';
 
 const ButtonSection = ({id,uploaderId}: {id: string, uploaderId: string}) => {
 
@@ -21,6 +21,27 @@ const ButtonSection = ({id,uploaderId}: {id: string, uploaderId: string}) => {
             icon: "info",
             cancelButtonText: "Close",
         })
+    }
+
+    const handleOrderBtn = async() => {
+        const result = await confirmAction(
+            "Are You Sure?",
+            "you want to order this product?",
+            "Yes",
+            "No",
+        )
+
+        if(result)
+        {
+            await createOrderFunction(id)
+        }
+        else{
+            await serverAlert(
+                "Action Canceled",
+                "Order was not placed.",
+                true,
+            )
+        }
     }
     const handleCreateMessageRoom = async() => {
         const userEmail = await getCookies("userEmail");
@@ -44,7 +65,7 @@ const ButtonSection = ({id,uploaderId}: {id: string, uploaderId: string}) => {
     <div className='w-full h-max flexClass flex-col gap-y-4'>
         <Button btnText='Contact Dealer' btnWidth={70} onClickFunc={handleContactUs}/>
         <Button btnText='Start Chat' btnWidth={70} onClickFunc={handleCreateMessageRoom}/>
-        <Button btnText='Buy' btnWidth={70} onClickFunc={() => {createOrderFunction(id)}}/>
+        <Button btnText='Buy' btnWidth={70} onClickFunc={handleOrderBtn}/>
     </div>
   )
 }

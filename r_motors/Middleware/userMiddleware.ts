@@ -73,6 +73,13 @@ export const getUserMiddleware = async(req: Request) => {
     
 }
 
+export const getUnreadMsgCountMiddleware = async(req: Request) => {
+    const {userEmail} = jwtTokenVerifier(req);
+    
+    return {userEmail};
+    
+}
+
 
 // POST REQUESTS
 
@@ -149,6 +156,8 @@ export const createOrderMiddleware = async(req: Request) => {
 }
 
 
+
+
 // UPDATE REQUESTS
 
 export const updateUserDetailsMiddleware = async(req: Request) => {
@@ -199,4 +208,19 @@ export const updateMessageReadStatusMiddleware = async(req: Request) => {
 export const deleteUserProfileMiddleware = async(req: Request) => {
     const decode = jwtTokenVerifier(req)
     return decode;
+}
+
+export const deleteOrderMiddleware = async(req: Request) => {
+    const body = await req.json();
+    const {userEmail} = await jwtTokenVerifier(req)
+    const scheam = joi.object({
+        orderId: joi.string().required(),
+    })
+    const {error} = scheam.validate(body, {abortEarly: false})
+    if(error)
+    {
+        return {data: null, message: "Please enter valid data.", status: 400, success: false}
+    }
+    const {orderId} = body
+    return {userEmail,orderId}
 }

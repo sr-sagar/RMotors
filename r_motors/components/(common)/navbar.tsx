@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Button from './button';
 import toast from 'react-hot-toast';
 import useSWR from "swr"
+import { useStateContext } from '../context/useStateContext';
 const fetcher = async(url: string) => {
   const res = await fetch(url);
   if(!res.ok) toast.error("Failed to fetch token.");
@@ -17,7 +18,7 @@ const Navbar = () => {
   const [showNavBar,setShowNavBar] = useState(false);
   const [activeTab,setActiveTab] = useState<"home" | "search" | "chats" | "orders" | "profile" | "admin" | undefined>()
   const { isMobile } = useScreenSize();
-
+  const {setAuthLoginOrSignup} = useStateContext()
   
 
   useEffect(() => {
@@ -97,8 +98,8 @@ const Navbar = () => {
           {token === undefined &&
 
             <ul className='min-w-[20%] h-full flex justify-around items-center   p-2 gap-x-6'>
-              <Link href={"/auth"} prefetch><li className='navbarItems '>SignIn</li></Link>
-              <Link href={"/auth"} prefetch><li className='navbarItems bg-[#4a3aff] p-1 rounded-md text-white'>Login</li></Link>
+              <Link href={"/auth"} prefetch><li className='navbarItems ' onClick={() => {setAuthLoginOrSignup(false)}}>SignIn</li></Link>
+              <Link href={"/auth"} prefetch><li className='navbarItems bg-[#4a3aff] p-1 rounded-md text-white'  onClick={() => {setAuthLoginOrSignup(true)}}>Login</li></Link>
             </ul>
           }
         </div>

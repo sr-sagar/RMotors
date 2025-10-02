@@ -52,6 +52,7 @@ const AuthForm = () => {
     const values = authLoginOrSignup ? loginValue : signupValue;
     const setValues = authLoginOrSignup? handleSetLoginValue : handleSetSignupValue;
 
+    
     const handleLoginAndSignup = async(data: object, isLogin: boolean) => {
         try{
             

@@ -1,5 +1,5 @@
-import { getOrdersMiddleware, createOrderMiddleware } from '../../../Middleware/userMiddleware';
-import { createOrderController, getOrdersController } from '../../../Controller/userController';
+import { getOrdersMiddleware, createOrderMiddleware, deleteOrderMiddleware } from '../../../Middleware/userMiddleware';
+import { createOrderController, deleteOrderController, getOrdersController } from '../../../Controller/userController';
 import { NextResponse } from 'next/server';
 import { AnyError, getErrorMessage } from '@/utils/anySolver';
 
@@ -23,4 +23,19 @@ export const POST = async(req: Request) => {
     {
         return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
     }
+}
+
+
+export const DELETE = async(req: Request) => {
+    try{
+        const {userEmail,orderId} = await deleteOrderMiddleware(req);
+        const result = await deleteOrderController(userEmail,orderId);
+        return NextResponse.json(result, {status: result.status})
+        
+    }catch(error: AnyError)
+    {
+        return NextResponse.json({message: getErrorMessage(error)}, {status: 500});
+    }
+    
+
 }

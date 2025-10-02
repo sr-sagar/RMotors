@@ -11,7 +11,7 @@ export const createOrderFunction = async(productId: string) => {
       {
         await serverAlert(
           "Success",
-          "order placed successfully.",
+          "order placed successfully. It will be added to your order's list shortly.",
           true,
         )
       }

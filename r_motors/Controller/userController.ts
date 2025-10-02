@@ -182,9 +182,11 @@ export const getUserController = async(userEmail: string) => {
     {
         return {data: null,message: "email not found, please sing up.", status: 404, success: false};
     }
-
+    
     return {data: user, message: "user details fetched successfully.", status: 200, success: true};
 }
+
+ 
 
 
 // POST REQUESTS
@@ -280,6 +282,39 @@ export const messageController = async(userEmail: string, userMessage: string,re
 
     return {data: message, message: "Message created successfully.", status: 201, success: true}
 } 
+
+
+export const getUnreadMsgCountController = async(userEmail: string, roomId: string) => {
+
+    const user = await prisma.user.findUnique({where: {userEmail}});
+    if(!user)
+    {
+        return {data: null,message: "email not found, please sing up.", status: 404, success: false};
+    }
+    const room = await prisma.room.findUnique(
+        {
+            where: {
+                id: roomId
+            },
+        })
+
+    if(!room)
+    {
+        return {data: null,message: "room not found.", status: 404, success: false};
+        
+    }
+    const message = await prisma.message.findMany({
+        where: {
+            roomId,
+            senderId: {not: user.id},
+            readStatus: false
+        }})
+    
+    const unreadCount = message?.length || 0;
+    return {data: unreadCount, message: "unread count fetched successfully.", status: 200, success: true}
+}  
+
+
 // UPDATE REQUESTS
 
 export const updateUserDetailsController = async(email: string,data: {userName?: string,userEmail?:string,userPhoneNumber?: string,userLocation?: string,userBio?: string,userPassword?: string}) => {
@@ -364,3 +399,37 @@ export const deleteUserProfileController = async(userEmail: string) => {
 }
 
 
+export const deleteOrderController = async(userEmail: string,orderId: string) => {
+    const user = await prisma.user.findUnique({where: {userEmail}});
+    if(!user)
+    {
+        return {data: null, message: "email not found.", status: 404, success: false}
+    }
+    const order = await prisma.order.findFirst({where: {id: orderId}})
+    if(!order)
+    {
+        return {data: null, message: "order not found.", status: 404, success: false}
+
+    }
+    try{
+        const hours48 = 48 * 60 * 60 * 1000
+        const orderedAt = new Date(order.orderedAt).getTime()
+        const now = Date.now()
+        const isCancelAllowed = now - orderedAt <= hours48
+        if(isCancelAllowed)
+        {
+            const deleteOrder = await prisma.order.delete({where: {id: orderId, userId: user.id}})
+            return {data: deleteOrder, message: "order deleted successfully.", status: 200, success: true}   
+            
+        }
+        else{
+            return {data: null, message: "not allowed to cancel order after 48h. You can contact the owner, if you require any additional help.", status: 400, success: false}   
+            
+        }
+    }
+    catch(error)
+    {
+        return {data: null, message: "unable to delete order", status: 500, success: false}   
+        
+    }
+}

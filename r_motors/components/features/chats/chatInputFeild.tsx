@@ -8,10 +8,10 @@ import { useStateContext } from '@/components/context/useStateContext';
 import { getCookies } from '../../../utils/getCookies';
 
 
-  const ChatInputFeild = ({receiverId,senderId,roomId} : {receiverId: string,senderId: string,roomId: string}) => {
+  const ChatInputFeild = ({receiverId,senderId,roomId,userId} : {receiverId: string,senderId: string,roomId: string,userId: string}) => {
     const [chat,setChat] = useState("")
     const {setMsg} = useStateContext()
-    const socketRef =  useSocket(roomId)
+    const socketRef =  useSocket(roomId,userId)
 
     
     const handleMessageSend = () => {
