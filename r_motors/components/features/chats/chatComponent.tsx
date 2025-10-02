@@ -45,9 +45,7 @@ const ChatComponent = ({chatTitle,unreadCount,productImageURL,roomId,messageDeta
 
   useEffect(() => {
     (async() => {
-
-      if(typeof window === "undefined") return;
-      if(sessionStorage.getItem("isNotificationAsked") !== "true") return
+      if(sessionStorage.getItem("isNotificationAsked") === "true") return
       if(Notification.permission !== "granted")
       {
 
@@ -63,7 +61,7 @@ const ChatComponent = ({chatTitle,unreadCount,productImageURL,roomId,messageDeta
             Notification.requestPermission()
           }
           sessionStorage.setItem("isNotificationAsked", "true")
-        }
+      }
       
     })();
   },[])
