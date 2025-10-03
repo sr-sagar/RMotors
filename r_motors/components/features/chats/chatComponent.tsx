@@ -87,7 +87,7 @@ const ChatComponent = ({chatTitle,unreadCount,productImageURL,roomId,messageDeta
             <p>{chatTitle}</p>
             <div className='w-max h-max flexClass p-1 gap-x-2'>
               <p className='text-sm md:text-md '>{lastSent? lastSent[0] : "N/A"}</p>
-              <p className='w-max h-max rounded-md text-sm md:text-md bg-blue-700 rounded-md px-4 py-1 '>{Math.max(unreadSeverCount,unreadCount)}</p>
+              <p className='w-max h-max rounded-md text-sm md:text-md bg-blue-700 rounded-md px-4 py-1 ' style={{color: "white"}}>{Math.max(unreadSeverCount,unreadCount)}</p>
             </div>
           </div>
           <p className='w-full text-start'>{lastMessage ?? "N/A"}</p>
